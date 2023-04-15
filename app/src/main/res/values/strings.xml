@@ -1,0 +1,100 @@
+<resources>
+    <string name="toast">~Created by HRITHIK AGARWAL.</string>
+    <string name="app_name">Hand Cricket</string>
+    <string name="Loading">Loading…</string>
+    <string name="Play">Play</string>
+    <string name="How_To">How To</string>
+    <string name="ok">OK</string>
+    <string name="Logo">Logo</string>
+    <string name="How_To_Play">How To Play</string>
+    <string name="How_To_Info">-To score runs, click on the desired number you wish to Score.\n\n-The device also chooses a random number between 1 to 10.\n\n-Showing of same number results in a wicket else the runs are increased for the one who is batting by the number shown.\n\n-Each player has 3 wickets. One who scores maximum runs wins.\n\n GOOD LUCK!!</string>
+    <string name="Toss">TOSS</string>
+    <string name="Toss_Page">Choose Heads or Tails to Toss.</string>
+    <string name="Heads">Heads</string>
+    <string name="Tails">Tails</string>
+    <string name="Batting">Batting</string>
+    <string name="Bowling">Bowling</string>
+    <string name="TossWin">You\'ve won the Toss! Now choose Batting or Bowling.</string>
+    <string name="TossLost1">You\'ve lost the Toss! You are now Batting.</string>
+    <string name="TossLost2">You\'ve lost the Toss! You are now Bowling.</string>
+    <string name="CricketPitch">Cricket Pitch</string>
+    <string name="ComputerHand">Device\'s Hand</string>
+    <string name="playerHand">Player\'s Hand</string>
+    <string name="Computer">Device</string>
+    <string name="Player">Player</string>
+    <string name="exitMessage">Are you sure you want to exit?</string>
+    <string name="scoreBoard">0/0</string>
+    <string name="playerBatting">Player Batting</string>
+    <string name="playerBowling">Player Bowling</string>
+    <string name="gameOver">Game Over!</string>
+    <string name="youWon">You Won</string>
+    <string name="youLost">You Lost</string>
+    <string name="inningsOver">Innings Over!</string>
+    <string name="runs">Runs:</string>
+    <string name="wickets">Wicket(s):</string>
+    <string name="playAgain">Play Again</string>
+    <string name="mainMenu">Main Menu</string>
+    <string name="_1">1</string>
+    <string name="_2">2</string>
+    <string name="_3">3</string>
+    <string name="_4">4</string>
+    <string name="_5">5</string>
+    <string name="_6">6</string>
+    <string name="_7">7</string>
+    <string name="_8">8</string>
+    <string name="_9">9</string>
+    <string name="_10">10</string>
+    <string name="drop_down_arrow">Drop Down Arrow</string>
+    <string name="toast2">Please select the number of overs first.</string>
+    <string name="over">Over:\u0020</string>
+    <string name="sound">Sound</string>
+    <string name="vibration">Vibration</string>
+    <string name="rate_us">Leave a review</string>
+    <string name="share">Share</string>
+    <string name="appLink">https://play.google.com/store/apps/details?id=com.Hand_Cricket</string>
+    <string name="shareBody">Check out this amazing Hand Cricket App!\n\nhttps://play.google.com/store/apps/details?id=com.Hand_Cricket</string>
+    <string name="soundON">Sound: \'ON\'</string>
+    <string name="soundOFF">Sound: \'OFF\'</string>
+    <string name="vibrationON">Vibration: \'ON\'</string>
+    <string name="vibrationOFF">Vibration: \'OFF\'</string>
+    <string name="score_card">Score Card</string>
+    <string name="total_overs">Total Overs:</string>
+    <string name="player">Player:</string>
+    <string name="device">Device:</string>
+    <string name="extra_wicket">Out of Wickets?\nWatch a short video to get an extra Wicket.</string>
+    <string name="extra_over">Out of Overs?\nWatch a short video to get an extra Over.</string>
+
+    <!--
+
+    Real
+
+    <string name="AppID">ca-app-pub-5909989608288926~4087025377</string>
+    <string name="AppOpenID">ca-app-pub-5909989608288926/6359617889</string>
+    <string name="BannerID">ca-app-pub-5909989608288926/3733454545</string>
+    <string name="InterstitialID">ca-app-pub-5909989608288926/2420372875</string>
+    <string name="RewardedID">ca-app-pub-5909989608288926/9217715516</string>
+
+    -->
+
+    <!--  Test   -->
+    <string name="AppID">ca-app-pub-3940256099942544~3347511713</string>
+    <string name="AppOpenID">ca-app-pub-3940256099942544/3419835294</string>
+    <string name="BannerID">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="InterstitialID">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="RewardedID">ca-app-pub-3940256099942544/5224354917</string>
+
+    <string-array name="overs">
+        <item>--Select Overs--</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+    </string-array>
+
+</resources>

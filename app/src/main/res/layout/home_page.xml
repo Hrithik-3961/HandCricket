@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HomeScreen"
+    android:background="@color/colorPrimaryDark">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:textAlignment="center"
+        android:layout_marginTop="55dp"
+        android:fontFamily="serif-monospace"
+        android:textStyle="bold"
+        android:textSize="40sp"
+        android:textColor="@color/white"
+        android:layout_centerHorizontal="true"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/HowToButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp">
+
+        <Button
+            android:id="@+id/sound"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginEnd="15dp"
+            android:background="@drawable/sound_on_icon"
+            android:backgroundTint="@color/white"
+            tools:ignore="ButtonStyle" />
+
+        <Button
+            android:id="@+id/vibrate"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginEnd="15dp"
+            android:background="@drawable/vibration_on_icon"
+            android:backgroundTint="@color/white"
+            tools:ignore="ButtonStyle"/>
+
+        <Button
+            android:id="@+id/share"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginEnd="15dp"
+            android:background="@drawable/share_icon"
+            android:backgroundTint="@color/white"
+            android:onClick="share"
+            tools:ignore="ButtonStyle"/>
+
+        <Button
+            android:id="@+id/rate"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:background="@drawable/rate_icon"
+            android:backgroundTint="@color/white"
+            android:onClick="rate"
+            tools:ignore="ButtonStyle"/>
+
+    </LinearLayout>
+
+
+
+    <Button
+        android:id="@+id/PlayButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="350dp"
+        android:background="@drawable/button"
+        android:text="@string/Play"
+        android:textSize="25sp"
+        tools:ignore="RelativeOverlap" />
+
+    <Button
+        android:id="@+id/HowToButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/PlayButton"
+        android:layout_centerInParent="true"
+        android:background="@drawable/button"
+        android:layout_marginTop="50dp"
+        android:textSize="25sp"
+        android:text="@string/How_To" />
+</RelativeLayout>

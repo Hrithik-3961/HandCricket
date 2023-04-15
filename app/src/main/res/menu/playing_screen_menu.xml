@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/howToMenu"
+        android:title="@string/How_To_Play"
+        android:icon="@drawable/info_icon"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/soundMenu"
+        android:title="@string/sound"
+        android:icon="@drawable/sound_on_icon"
+        app:showAsAction="never"
+        android:checkable="true"/>
+    <item
+         android:id="@+id/vibrateMenu"
+         android:title="@string/vibration"
+         android:icon="@drawable/vibration_on_icon"
+         app:showAsAction="never"
+         android:checkable="true"/>
+
+    <item
+        android:id="@+id/shareMenu"
+        android:title="@string/share"
+        android:icon="@drawable/share_icon"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/rateMenu"
+        android:title="@string/rate_us"
+        android:icon="@drawable/rate_icon"
+        app:showAsAction="never" />
+
+</menu>

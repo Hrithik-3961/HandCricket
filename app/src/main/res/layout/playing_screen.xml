@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".PlayingScreen">
+
+    <FrameLayout
+        android:id="@+id/adView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <RelativeLayout
+        android:id="@+id/top"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:alpha="1.0"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/cricket_pitch"
+        app:layout_constraintHeight_percent="0.55"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/overs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:textAlignment="center"
+            android:textSize="25sp"
+            android:textColor="@color/textColor"
+            android:textStyle="bold"
+            tools:ignore="RelativeOverlap" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/wicket"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@color/white"
+            android:visibility="invisible"
+            app:lottie_autoPlay="false"
+            app:lottie_fileName="out.json"
+            app:lottie_speed="2" />
+
+        <Button
+            android:id="@+id/back"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/back" />
+
+        <Button
+            android:id="@+id/more"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/more_icon" />
+
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="70dp"
+            android:background="@color/colorAccent"
+            android:fontFamily="@font/corben"
+            android:padding="5dp"
+            android:textColor="@color/textColor"
+            android:textAlignment="center"
+            android:textSize="25sp"
+            tools:ignore="RelativeOverlap"
+            android:text="@string/playerBowling"/>
+
+        <ImageView
+            android:id="@+id/computerHand"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_below="@id/status"
+            android:layout_marginTop="15dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/image0"
+            android:contentDescription="@string/ComputerHand"
+            android:rotation="90.0" />
+
+        <TextView
+            android:id="@+id/Device"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/computerHand"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/comic_book"
+            android:text="@string/Computer"
+            android:textColor="@color/colorPrimary"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/playerHand"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_below="@id/status"
+            android:layout_marginTop="15dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/image0"
+            android:contentDescription="@string/playerHand"
+            android:rotation="-90.0" />
+
+        <TextView
+            android:id="@+id/Player"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/playerHand"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="5dp"
+            android:paddingEnd="10dp"
+            android:fontFamily="@font/comic_book"
+            android:text="@string/Player"
+            android:textColor="@color/colorPrimary"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            tools:ignore="RtlSymmetry" />
+
+        <TextView
+            android:id="@+id/score1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/Device"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="@string/scoreBoard"
+            android:textColor="@color/textColor"
+            android:textSize="35sp"
+            android:textStyle="bold"
+            tools:ignore="RelativeOverlap" />
+
+        <TextView
+            android:id="@+id/score2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/Player"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="10dp"
+            android:paddingEnd="10dp"
+            android:text="@string/scoreBoard"
+            android:textColor="@color/textColor"
+            android:textSize="35sp"
+            android:textStyle="bold"
+            tools:ignore="RelativeOverlap,RtlSymmetry" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/Linear1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="12dp"
+        android:foregroundGravity="center"
+        android:gravity="center"
+        app:layout_constraintBottom_toTopOf="@+id/Linear2"
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/btn1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/buttonshape"
+            android:minWidth="48dip"
+            android:text="@string/_1"
+            android:textSize="25sp"
+            tools:ignore="ButtonStyle" />
+
+        <Button
+            android:id="@+id/btn2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/buttonshape"
+            android:minWidth="48dip"
+            android:text="@string/_2"
+            android:textSize="25sp"
+            tools:ignore="ButtonStyle" />
+
+        <Button
+            android:id="@+id/btn3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/buttonshape"
+            android:minWidth="48dip"
+            android:text="@string/_3"
+            android:textSize="25sp"
+            tools:ignore="ButtonStyle" />
+
+        <Button
+            android:id="@+id/btn4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/buttonshape"
+            android:minWidth="48dip"
+            android:text="@string/_4"
+            android:textSize="25sp"
+            tools:ignore="ButtonStyle" />
+
+        <Button
+            android:id="@+id/btn5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/buttonshape"
+            android:minWidth="48dip"
+            android:text="@string/_5"
+            android:textSize="25sp"
+            tools:ignore="ButtonStyle" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/Linear2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Linear1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="116dp"
+        android:foregroundGravity="center"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="@+id/adView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/btn6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/buttonshape"
+            android:minWidth="48dip"
+            android:text="@string/_6"
+            android:textSize="25sp"
+            tools:ignore="ButtonStyle" />
+
+        <Button
+            android:id="@+id/btn7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/buttonshape"
+            android:minWidth="48dip"
+            android:text="@string/_7"
+            android:textSize="25sp"
+            tools:ignore="ButtonStyle" />
+
+        <Button
+            android:id="@+id/btn8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/buttonshape"
+            android:minWidth="48dip"
+            android:text="@string/_8"
+            android:textSize="25sp"
+            tools:ignore="ButtonStyle" />
+
+        <Button
+            android:id="@+id/btn9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/buttonshape"
+            android:minWidth="48dip"
+            android:text="@string/_9"
+            android:textSize="25sp"
+            tools:ignore="ButtonStyle" />
+
+        <Button
+            android:id="@+id/btn10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/buttonshape"
+            android:minWidth="48dip"
+            android:text="@string/_10"
+            android:textSize="25sp"
+            tools:ignore="ButtonStyle" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
