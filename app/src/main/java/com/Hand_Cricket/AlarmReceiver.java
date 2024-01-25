@@ -20,13 +20,8 @@ public class AlarmReceiver extends BroadcastReceiver {
         repeating_intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         PendingIntent pendingIntent;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-            pendingIntent = PendingIntent.getBroadcast(context, 100, repeating_intent,
-                    PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
-        } else {
-            pendingIntent = PendingIntent.getBroadcast(context, 100, repeating_intent,
-                    PendingIntent.FLAG_UPDATE_CURRENT);
-        }
+        pendingIntent = PendingIntent.getBroadcast(context, 100, repeating_intent,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "Notification Channel")
                 .setContentIntent(pendingIntent)
                 .setSmallIcon(R.drawable.splash_logo)
