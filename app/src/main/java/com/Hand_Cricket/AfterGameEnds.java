@@ -2,7 +2,7 @@ package com.Hand_Cricket;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.media.AudioManager;
+import android.media.AudioAttributes;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
@@ -55,45 +55,45 @@ public class AfterGameEnds extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         assert bundle != null;
-        String str = bundle.getString("Win status");
-        overs = bundle.getInt("total overs");
-        playerPoints = bundle.getInt("player points");
-        playerWickets = bundle.getInt("player wickets");
-        computerPoints = bundle.getInt("computer points");
-        computerWickets = bundle.getInt("computer wickets");
-        playerOvers = bundle.getDouble("player overs");
-        computerOvers = bundle.getDouble("computer overs");
-        playerBatting = bundle.getBoolean("player batting");
+        int status = bundle.getInt(GameConstants.WIN_STATUS);
+        overs = bundle.getInt(GameConstants.TOTAL_OVERS);
+        playerPoints = bundle.getInt(GameConstants.PLAYER_RUNS);
+        playerWickets = bundle.getInt(GameConstants.PLAYER_WICKETS);
+        computerPoints = bundle.getInt(GameConstants.COMPUTER_RUNS);
+        computerWickets = bundle.getInt(GameConstants.COMPUTER_WICKETS);
+        playerOvers = bundle.getDouble(GameConstants.PLAYER_OVERS);
+        computerOvers = bundle.getDouble(GameConstants.COMPUTER_OVERS);
+        playerBatting = bundle.getBoolean(GameConstants.PLAYER_BATTING);
 
         TextView winStatus = findViewById(R.id.winStatus);
-        winStatus.setText(str);
+        winStatus.setText(getGameOverMessage(status));
 
         LottieAnimationView animation = findViewById(R.id.animation);
-        assert str != null;
-        switch (str) {
-            case "You Won":
+
+        switch (status) {
+            case 1:
                 animation.setAnimation("winners-animation.json");
                 if (soundOn) {
                     if (gameWonSound == null) {
                         gameWonSound = MediaPlayer.create(this, R.raw.game_won);
-                        gameWonSound.setAudioStreamType(AudioManager.STREAM_MUSIC);
+                        gameWonSound.setAudioAttributes(new AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build());
                         gameWonSound.setOnCompletionListener(mp -> stopPlayer());
                     }
                     gameWonSound.start();
                 }
                 break;
-            case "You Lost":
+            case 2:
                 animation.setAnimation("sad.json");
                 if (soundOn) {
                     if (gameLostSound == null) {
                         gameLostSound = MediaPlayer.create(this, R.raw.game_lost);
-                        gameLostSound.setAudioStreamType(AudioManager.STREAM_MUSIC);
+                        gameLostSound.setAudioAttributes(new AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build());
                         gameLostSound.setOnCompletionListener(mp -> stopPlayer());
                     }
                     gameLostSound.start();
                 }
                 break;
-            case "Game Draw":
+            case 3:
                 animation.setVisibility(View.GONE);
                 break;
         }
@@ -122,6 +122,19 @@ public class AfterGameEnds extends AppCompatActivity {
                 resumeActivity();
         });
 
+    }
+
+    private String getGameOverMessage(int status) {
+        switch (status) {
+            case 1:
+                return "Congratulations! You won the match!";
+            case 2:
+                return "Oops! You lost the match!";
+            case 3:
+                return "It's a tie!";
+            default:
+                return "";
+        }
     }
 
     private void loadAd() {

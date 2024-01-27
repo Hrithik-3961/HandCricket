@@ -22,6 +22,7 @@
     <string name="playerHand">Player\'s Hand</string>
     <string name="Computer">Device</string>
     <string name="Player">Player</string>
+    <string name="inningsChangeMessage">%1$s needs %2$d runs in %3$d overs to Win</string>
     <string name="exitMessage">Are you sure you want to exit?</string>
     <string name="scoreBoard">0/0</string>
     <string name="playerBatting">Player Batting</string>
@@ -46,6 +47,7 @@
     <string name="_10">10</string>
     <string name="drop_down_arrow">Drop Down Arrow</string>
     <string name="toast2">Please select the number of overs first.</string>
+    <string name="over_playing_screen">Over: %1$s(%2$d)</string>
     <string name="over">Over:\u0020</string>
     <string name="sound">Sound</string>
     <string name="vibration">Vibration</string>
@@ -61,8 +63,7 @@
     <string name="total_overs">Total Overs:</string>
     <string name="player">Player:</string>
     <string name="device">Device:</string>
-    <string name="extra_wicket">Out of Wickets?\nWatch a short video to get an extra Wicket.</string>
-    <string name="extra_over">Out of Overs?\nWatch a short video to get an extra Over.</string>
+    <string name="add_extra_resources">Want to continue the game?\nWatch a short video to get an extra %1$s</string>
 
     <!--
 
