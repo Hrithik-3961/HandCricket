@@ -22,7 +22,10 @@
     <string name="playerHand">Player\'s Hand</string>
     <string name="Computer">Device</string>
     <string name="Player">Player</string>
-    <string name="inningsChangeMessage">%1$s needs %2$d runs in %3$d overs to Win</string>
+    <plurals name="inningsChangeMessage">
+        <item quantity="one">%1$s needs %2$d runs in %3$d over to Win</item>
+        <item quantity="other">%1$s needs %2$d runs in %3$d overs to Win</item>
+    </plurals>
     <string name="exitMessage">Are you sure you want to exit?</string>
     <string name="scoreBoard">0/0</string>
     <string name="playerBatting">Player Batting</string>
@@ -60,11 +63,27 @@
     <string name="vibrationON">Vibration: \'ON\'</string>
     <string name="vibrationOFF">Vibration: \'OFF\'</string>
     <string name="score_card">Score Card</string>
-    <string name="total_overs">Total Overs:</string>
+    <string name="total_overs">Total Overs: %1$d</string>
     <string name="player">Player:</string>
     <string name="device">Device:</string>
     <string name="add_extra_resources">Want to continue the game?\nWatch a short video to get an extra %1$s</string>
-
+    <plurals name="score_summary">
+        <item quantity="one">%1$d/%2$d in %3$.1f over</item>
+        <item quantity="other">%1$d/%2$d in %3$.1f overs</item>
+    </plurals>
+    <plurals name="summary_runs">
+        <item quantity="one">%1$s beats %2$s by %3$d run.</item>
+        <item quantity="other">%1$s beats %2$s by %3$d runs.</item>
+    </plurals>
+    <plurals name="summary_wickets">
+        <item quantity="one">%1$s beats %2$s by %3$.1f wicket.</item>
+        <item quantity="other">%1$s beats %2$s by %3$.1f wickets.</item>
+    </plurals>
+    <array name="game_end_message">
+        <item>Congratulations!\nYou won the match!</item>
+        <item>Oops! You lost the match!</item>
+        <item>It\'s a tie!</item>
+    </array>
     <!--
 
     Real

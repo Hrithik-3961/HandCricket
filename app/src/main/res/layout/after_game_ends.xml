@@ -21,17 +21,17 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/winStatus"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_margin="10dp"
+        android:id="@+id/winStatusMsg"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:layout_marginHorizontal="10dp"
         android:fontFamily="@font/source_sans_pro"
         android:foregroundGravity="center"
-        android:textSize="40sp"
         android:textColor="@color/textColor"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.08"
-        app:layout_constraintHorizontal_bias="0.498"
+        android:textSize="28sp"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toStartOf="@+id/score_card_icon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/heading" />
 
@@ -44,22 +44,20 @@
         app:layout_constraintHeight_percent="0.38"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/winStatus"
+        app:layout_constraintTop_toBottomOf="@+id/winStatusMsg"
         app:lottie_autoPlay="true"
         app:lottie_loop="true" />
 
     <Button
         android:id="@+id/score_card_icon"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
         android:layout_margin="10dp"
-        android:background="@drawable/score_card_icon"
+        android:background="@drawable/ic_scoreboard"
         android:onClick="scoreCard"
-        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/animation"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.07"
-        app:layout_constraintTop_toBottomOf="@+id/heading"
-        app:layout_constraintWidth_percent="0.12" />
+        app:layout_constraintTop_toBottomOf="@+id/heading" />
 
     <Button
         android:id="@+id/playAgain"

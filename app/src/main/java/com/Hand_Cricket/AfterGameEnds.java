@@ -31,7 +31,7 @@ public class AfterGameEnds extends AppCompatActivity {
     private boolean flag;
     private boolean playerBatting;
 
-    private int playerPoints, playerWickets, computerPoints, computerWickets, overs;
+    private int winStatus, playerPoints, playerWickets, computerPoints, computerWickets, overs;
     private double playerOvers, computerOvers;
 
     private MediaPlayer gameWonSound, gameLostSound;
@@ -55,7 +55,7 @@ public class AfterGameEnds extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         assert bundle != null;
-        int status = bundle.getInt(GameConstants.WIN_STATUS);
+        winStatus = bundle.getInt(GameConstants.WIN_STATUS);
         overs = bundle.getInt(GameConstants.TOTAL_OVERS);
         playerPoints = bundle.getInt(GameConstants.PLAYER_RUNS);
         playerWickets = bundle.getInt(GameConstants.PLAYER_WICKETS);
@@ -65,12 +65,12 @@ public class AfterGameEnds extends AppCompatActivity {
         computerOvers = bundle.getDouble(GameConstants.COMPUTER_OVERS);
         playerBatting = bundle.getBoolean(GameConstants.PLAYER_BATTING);
 
-        TextView winStatus = findViewById(R.id.winStatus);
-        winStatus.setText(getGameOverMessage(status));
+        TextView winStatusMsg = findViewById(R.id.winStatusMsg);
+        winStatusMsg.setText(getResources().getStringArray(R.array.game_end_message)[winStatus-1]);
 
         LottieAnimationView animation = findViewById(R.id.animation);
 
-        switch (status) {
+        switch (winStatus) {
             case 1:
                 animation.setAnimation("winners-animation.json");
                 if (soundOn) {
@@ -122,19 +122,6 @@ public class AfterGameEnds extends AppCompatActivity {
                 resumeActivity();
         });
 
-    }
-
-    private String getGameOverMessage(int status) {
-        switch (status) {
-            case 1:
-                return "Congratulations! You won the match!";
-            case 2:
-                return "Oops! You lost the match!";
-            case 3:
-                return "It's a tie!";
-            default:
-                return "";
-        }
     }
 
     private void loadAd() {
@@ -222,7 +209,7 @@ public class AfterGameEnds extends AppCompatActivity {
         TextView totalOvers = mView.findViewById(R.id.totalOvers);
         TextView playerSummary = mView.findViewById(R.id.playerSummary);
         TextView computerSummary = mView.findViewById(R.id.computerSummary);
-        TextView winMessage = mView.findViewById(R.id.winMessage);
+        TextView summary = mView.findViewById(R.id.summary);
         Button ok = mView.findViewById(R.id.ok);
 
         alert.setView(mView);
@@ -230,32 +217,30 @@ public class AfterGameEnds extends AppCompatActivity {
         final AlertDialog alertDialog = alert.create();
         alertDialog.setCanceledOnTouchOutside(false);
 
-        String str = "Total Overs: " + overs;
-        totalOvers.setText(str);
+        totalOvers.setText(getString(R.string.total_overs, overs));
+        playerSummary.setText(getResources().getQuantityString(R.plurals.score_summary, playerOvers <= 1 ? 1:2, playerPoints, playerWickets, playerOvers));
+        computerSummary.setText(getResources().getQuantityString(R.plurals.score_summary, computerOvers <= 1 ? 1:2, computerPoints, computerWickets, computerOvers));
 
-        str = playerPoints + "/" + playerWickets + " in " + playerOvers + " over(s)";
-        playerSummary.setText(str);
-
-        str = computerPoints + "/" + computerWickets + " in " + computerOvers + " over(s)";
-        computerSummary.setText(str);
-
-        if (playerPoints > computerPoints) {
-            if (playerBatting)
-                str = "Player beats Computer by " + (3 - playerWickets) + " wicket(s).";
-            else
-                str = "Player beats Computer by " + (playerPoints - computerPoints) + " run(s).";
-        } else if (computerPoints > playerPoints) {
-            if (!playerBatting)
-                str = "Computer beats Player by " + (3 - computerWickets) + " wicket(s).";
-            else
-                str = "Computer beats Player by " + (computerPoints - playerPoints) + " run(s).";
+        if(winStatus == 3)
+            summary.setText(getResources().getStringArray(R.array.game_end_message)[winStatus-1]);
+        else {
+            if (playerBatting) {
+                if (winStatus == 1) {
+                    int diff = 3 - playerWickets;
+                    if(diff < 0)
+                        diff = 0;
+                    summary.setText(getResources().getQuantityString(R.plurals.summary_wickets, (3 - playerWickets) <= 1 ? 1 : 2, getText(R.string.Player), getText(R.string.Computer), diff));
+                } else
+                    summary.setText(getResources().getQuantityString(R.plurals.summary_runs, (computerPoints - playerPoints) <= 1 ? 1:2, getText(R.string.Computer), getText(R.string.Player), (computerPoints - playerPoints)));
+            } else {
+                if (winStatus == 1)
+                    summary.setText(getResources().getQuantityString(R.plurals.summary_runs, (playerPoints - computerPoints) <= 1 ? 1:2, getText(R.string.Player), getText(R.string.Computer), (playerPoints - computerPoints)));
+                else
+                    summary.setText(getResources().getQuantityString(R.plurals.summary_wickets, (3 - computerWickets) <= 1 ? 1:2, getText(R.string.Computer), getText(R.string.Player), (3 - computerWickets)));
+            }
         }
 
-        winMessage.setText(str);
-
         ok.setOnClickListener(v -> alertDialog.cancel());
-
-
         alertDialog.show();
     }
 }

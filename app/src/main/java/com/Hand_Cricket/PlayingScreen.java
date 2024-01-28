@@ -445,12 +445,12 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
             text1.setText(R.string.Player);
             runsDisplay.setText(String.valueOf(playerRuns));
             wicketsDisplay.setText(String.valueOf(playerWickets));
-            text2.setText(getString(R.string.inningsChangeMessage, getText(R.string.Computer), (playerRuns + 1), MAX_COMPUTER_OVERS));
+            text2.setText(getResources().getQuantityString(R.plurals.inningsChangeMessage, MAX_COMPUTER_OVERS <= 1 ? 1:2, getText(R.string.Computer), (playerRuns + 1), MAX_COMPUTER_OVERS));
         } else {
             text1.setText(R.string.Computer);
             runsDisplay.setText(String.valueOf(computerRuns));
             wicketsDisplay.setText(String.valueOf(computerWickets));
-            text2.setText(getString(R.string.inningsChangeMessage, getText(R.string.Player), (computerRuns + 1), MAX_PLAYER_OVERS));
+            text2.setText(getResources().getQuantityString(R.plurals.inningsChangeMessage, MAX_PLAYER_OVERS <= 1 ? 1:2, getText(R.string.Player), (computerRuns + 1), MAX_PLAYER_OVERS));
         }
         alertDialog.show();
 

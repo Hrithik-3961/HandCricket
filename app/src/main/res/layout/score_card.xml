@@ -79,7 +79,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/winMessage"
+        android:id="@+id/summary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/computerInfo"
@@ -100,7 +100,7 @@
         android:text="@string/ok"
         android:background="@color/colorPrimary"
         android:minWidth="48dip"
-        android:layout_below="@id/winMessage"
+        android:layout_below="@id/summary"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
         android:layout_marginBottom="15dp"/>
