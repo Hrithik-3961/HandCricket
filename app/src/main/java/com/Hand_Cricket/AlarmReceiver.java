@@ -16,7 +16,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        Intent repeating_intent = new Intent(context, SplashScreen.class);
+        Intent repeating_intent = new Intent(context, HomeScreen.class);
         repeating_intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         PendingIntent pendingIntent;

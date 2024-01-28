@@ -1,11 +1,16 @@
 package com.Hand_Cricket;
 
+import android.app.AlarmManager;
+import android.app.Application;
+import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -20,6 +25,8 @@ import com.google.android.gms.ads.FullScreenContentCallback;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
+
+import java.util.Calendar;
 
 public class HomeScreen extends AppCompatActivity {
 
@@ -36,6 +43,16 @@ public class HomeScreen extends AppCompatActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.home_page);
 
+        final View content = findViewById(android.R.id.content);
+        content.getViewTreeObserver().addOnPreDrawListener(
+                new ViewTreeObserver.OnPreDrawListener() {
+                    @Override
+                    public boolean onPreDraw() {
+                        setAlarm(HomeScreen.this);
+                        content.getViewTreeObserver().removeOnPreDrawListener(this);
+                        return true;
+                    }
+                });
         soundOn = MyPrefs.getSoundPref(this);
         vibrationOn = MyPrefs.getVibrationPref(this);
 
@@ -178,5 +195,23 @@ public class HomeScreen extends AppCompatActivity {
         String body = getString(R.string.shareBody);
         intent.putExtra(Intent.EXTRA_TEXT, body);
         startActivity(Intent.createChooser(intent, "Share Via"));
+    }
+
+    public static void setAlarm(Context context) {
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 18);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+
+        long timeInMillis = calendar.getTimeInMillis() + 86400000;
+
+        Intent intent = new Intent(context, AlarmReceiver.class);
+        PendingIntent pendingIntent;
+        pendingIntent = PendingIntent.getBroadcast(context, 100, intent,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        assert alarmManager != null;
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, timeInMillis, AlarmManager.INTERVAL_DAY, pendingIntent);
     }
 }

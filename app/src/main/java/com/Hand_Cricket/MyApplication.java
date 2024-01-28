@@ -1,20 +1,17 @@
 package com.Hand_Cricket;
 
-import static androidx.lifecycle.Lifecycle.Event.ON_START;
-
 import android.app.Activity;
 import android.app.Application;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.lifecycle.LifecycleEventObserver;
-import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.DefaultLifecycleObserver;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ProcessLifecycleOwner;
 
 import com.google.android.gms.ads.AdError;
@@ -26,7 +23,7 @@ import com.google.android.gms.ads.appopen.AppOpenAd;
 
 import java.util.Date;
 
-public class MyApplication extends Application implements Application.ActivityLifecycleCallbacks {
+public class MyApplication extends Application implements Application.ActivityLifecycleCallbacks, DefaultLifecycleObserver {
     public static final String CHANNEL_ID = "Notification Channel";
     private AppOpenAdManager appOpenAdManager;
     private Activity currentActivity;
@@ -40,27 +37,26 @@ public class MyApplication extends Application implements Application.ActivityLi
                 initializationStatus -> {
                 });
 
-        ProcessLifecycleOwner.get().getLifecycle().addObserver(observer);
+        ProcessLifecycleOwner.get().getLifecycle().addObserver(this);
         appOpenAdManager = new AppOpenAdManager();
         createNotificationChannel();
     }
 
-    LifecycleEventObserver observer = (source, event) -> {
-        if (event == ON_START) {
-            appOpenAdManager.showAdIfAvailable(currentActivity);
-        }
-    };
+    @Override
+    public void onStart(@NonNull LifecycleOwner owner) {
+        DefaultLifecycleObserver.super.onStart(owner);
+        Log.d("myTag", "onstart");
+        appOpenAdManager.showAdIfAvailable(currentActivity);
+    }
 
     private void createNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "Game Invitation", NotificationManager.IMPORTANCE_HIGH);
+        NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "Game Invitation", NotificationManager.IMPORTANCE_HIGH);
 
-            channel.setDescription("Game Invitation");
+        channel.setDescription("Game Invitation");
 
-            NotificationManager manager = getSystemService(NotificationManager.class);
-            assert manager != null;
-            manager.createNotificationChannel(channel);
-        }
+        NotificationManager manager = getSystemService(NotificationManager.class);
+        assert manager != null;
+        manager.createNotificationChannel(channel);
     }
 
     @Override
@@ -100,17 +96,16 @@ public class MyApplication extends Application implements Application.ActivityLi
 
     }
 
+    public interface OnShowAdCompleteListener {
+        void onShowAdComplete();
+    }
+
     public void showAdIfAvailable(
             @NonNull Activity activity,
             @NonNull OnShowAdCompleteListener onShowAdCompleteListener) {
         // We wrap the showAdIfAvailable to enforce that other classes only interact with MyApplication
         // class.
         appOpenAdManager.showAdIfAvailable(activity, onShowAdCompleteListener);
-    }
-
-
-    public interface OnShowAdCompleteListener {
-        void onShowAdComplete();
     }
 
     private static class AppOpenAdManager {
@@ -136,7 +131,6 @@ public class MyApplication extends Application implements Application.ActivityLi
                     context,
                     context.getString(R.string.AppOpenID),
                     request,
-                    AppOpenAd.APP_OPEN_AD_ORIENTATION_PORTRAIT,
                     new AppOpenAd.AppOpenAdLoadCallback() {
                         @Override
                         public void onAdLoaded(@NonNull AppOpenAd ad) {
@@ -156,17 +150,15 @@ public class MyApplication extends Application implements Application.ActivityLi
                     });
         }
 
-        private boolean wasLoadTimeLessThanNHoursAgo(long numHours) {
+        private boolean wasLoadTimeLessThanFourHoursAgo() {
             long dateDifference = (new Date()).getTime() - loadTime;
             long numMilliSecondsPerHour = 3600000;
-            return (dateDifference < (numMilliSecondsPerHour * numHours));
+            return (dateDifference < (numMilliSecondsPerHour * (long) 4));
         }
 
         private boolean isAdAvailable() {
-//            return appOpenAd != null && wasLoadTimeLessThanNHoursAgo(4);
-            return appOpenAd != null;
+            return appOpenAd != null && wasLoadTimeLessThanFourHoursAgo();
         }
-
 
         private void showAdIfAvailable(@NonNull final Activity activity) {
             showAdIfAvailable(

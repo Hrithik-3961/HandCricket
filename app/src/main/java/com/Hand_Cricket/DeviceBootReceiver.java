@@ -8,6 +8,6 @@ public class DeviceBootReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction()))
-            new SplashScreen().setAlarm(context);
+            HomeScreen.setAlarm(context);
     }
 }
