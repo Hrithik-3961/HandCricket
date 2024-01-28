@@ -270,11 +270,6 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
         }
 
         currentBalls++;
-        if (isPlayerBatting)
-            playerOversAndBalls = playerOver + currentBalls / 10.0;
-        else
-            computerOversAndBalls = computerOver + currentBalls / 10.0;
-
         if (currentBalls == GameConstants.MAX_BALLS_PER_OVER) {
             currentBalls = 0;
             if(isPlayerBatting)
@@ -282,6 +277,10 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
             else
                 computerOver++;
         }
+        if (isPlayerBatting)
+            playerOversAndBalls = playerOver + currentBalls / 10.0;
+        else
+            computerOversAndBalls = computerOver + currentBalls / 10.0;
 
         playerChosenNumber = getPlayerChoice(v);
         computerChosenNumber = getRandomNumber();
@@ -378,10 +377,10 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
 
     private void handleInningsChange() {
         if(!firstInningsOver) {
+            showInningsChange(-1);
             isPlayerBatting = !isPlayerBatting;
             currentBalls = 0;
             firstInningsOver = true;
-            showInningsChange(-1);
         } else {
             int status = checkGameOverByWickets();
             if(status == -1)
