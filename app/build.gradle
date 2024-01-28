@@ -34,7 +34,7 @@ dependencies {
 
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'com.airbnb.android:lottie:3.7.0'
+    implementation 'com.airbnb.android:lottie:6.3.0'
     implementation 'com.google.android.gms:play-services-ads:22.6.0'
 
     def lifecycle_version = "2.7.0"

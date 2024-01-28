@@ -3,7 +3,7 @@ package com.Hand_Cricket;
 import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.media.AudioManager;
+import android.media.AudioAttributes;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,6 +17,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -116,7 +117,7 @@ public class Play extends AppCompatActivity implements AdapterView.OnItemSelecte
             if (soundOn) {
                 if (mediaPlayer == null) {
                     mediaPlayer = MediaPlayer.create(this, R.raw.coinflip);
-                    mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+                    mediaPlayer.setAudioAttributes(new AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build());
                     mediaPlayer.setOnCompletionListener(mp -> stopPlayer());
                 }
                 mediaPlayer.start();
@@ -124,11 +125,11 @@ public class Play extends AppCompatActivity implements AdapterView.OnItemSelecte
 
             tossAnimation.addAnimatorListener(new Animator.AnimatorListener() {
                 @Override
-                public void onAnimationStart(Animator animation) {
+                public void onAnimationStart(@NonNull Animator animation) {
                 }
 
                 @Override
-                public void onAnimationEnd(Animator animation) {
+                public void onAnimationEnd(@NonNull Animator animation) {
                     flag = false;
                     tossAnimation.setVisibility(View.GONE);
                     close.setVisibility(View.GONE);
@@ -153,11 +154,11 @@ public class Play extends AppCompatActivity implements AdapterView.OnItemSelecte
                 }
 
                 @Override
-                public void onAnimationCancel(Animator animation) {
+                public void onAnimationCancel(@NonNull Animator animation) {
                 }
 
                 @Override
-                public void onAnimationRepeat(Animator animation) {
+                public void onAnimationRepeat(@NonNull Animator animation) {
                 }
             });
         } else {

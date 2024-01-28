@@ -36,13 +36,8 @@
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/tossAnimation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="205dp"
-            android:layout_marginTop="250dp"
-            android:layout_marginEnd="205dp"
-            android:layout_marginBottom="250dp"
-            android:scaleType="fitCenter"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
