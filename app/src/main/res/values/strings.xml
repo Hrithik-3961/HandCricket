@@ -67,6 +67,8 @@
     <string name="player">Player:</string>
     <string name="device">Device:</string>
     <string name="add_extra_resources">Want to continue the game?\nWatch a short video to get an extra %1$s</string>
+    <string name="continueBtnText">Continue</string>
+    <string name="cancel_button_desc">Cancel Button</string>
     <plurals name="score_summary">
         <item quantity="one">%1$d/%2$d in %3$.1f over</item>
         <item quantity="other">%1$d/%2$d in %3$.1f overs</item>
@@ -76,34 +78,30 @@
         <item quantity="other">%1$s beats %2$s by %3$d runs.</item>
     </plurals>
     <plurals name="summary_wickets">
-        <item quantity="one">%1$s beats %2$s by %3$.1f wicket.</item>
-        <item quantity="other">%1$s beats %2$s by %3$.1f wickets.</item>
+        <item quantity="one">%1$s beats %2$s by %3$d wicket.</item>
+        <item quantity="other">%1$s beats %2$s by %3$d wickets.</item>
     </plurals>
     <array name="game_end_message">
         <item>Congratulations!\nYou won the match!</item>
         <item>Oops! You lost the match!</item>
         <item>It\'s a tie!</item>
     </array>
-    <!--
 
-    Real
-
+    <!-- Real
     <string name="AppID">ca-app-pub-5909989608288926~4087025377</string>
     <string name="AppOpenID">ca-app-pub-5909989608288926/6359617889</string>
     <string name="BannerID">ca-app-pub-5909989608288926/3733454545</string>
     <string name="InterstitialID">ca-app-pub-5909989608288926/2420372875</string>
     <string name="RewardedID">ca-app-pub-5909989608288926/9217715516</string>
-
     -->
 
-    <!--  Test   -->
+    <!--  Test  -->
     <string name="AppID">ca-app-pub-3940256099942544~3347511713</string>
     <string name="AppOpenID">ca-app-pub-3940256099942544/9257395921</string>
     <string name="BannerID">ca-app-pub-3940256099942544/6300978111</string>
     <string name="InterstitialID">ca-app-pub-3940256099942544/1033173712</string>
     <string name="RewardedID">ca-app-pub-3940256099942544/5224354917</string>
-    <string name="continueBtnText">Continue</string>
-    <string name="cancel_button_desc">Cancel Button</string>
+
 
     <string-array name="overs">
         <item>--Select Overs--</item>
