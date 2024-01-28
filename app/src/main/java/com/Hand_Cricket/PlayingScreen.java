@@ -60,11 +60,14 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
     private int computerOver = 0;
     private int playerChosenNumber = 0;
     private int computerChosenNumber = 0;
+    private int extraStatus = -1;
     private double playerOversAndBalls = 0.0, computerOversAndBalls = 0.0;
     private boolean isPlayerBatting;
     private boolean firstInningsOver = false;
     private boolean soundOn = true;
     private boolean vibrationOn = true;
+    private boolean addExtraWicket = true;
+    private boolean addExtraOver = true;
 
     private LottieAnimationView wicketAnimation;
     private MediaPlayer myWicketSound, opponentWicketSound, crowdSound;
@@ -72,6 +75,7 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
     private TextView playerStatus, oversDisplay;
     private ImageView computerHand, playerHand;
     private RewardedAd mRewardedAd;
+    private AlertDialog rewardedAdDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -306,7 +310,7 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
             handleInningsChange();
         }
 
-        int extraStatus = -1;//1 - wicket only, 2 - overs only, 3 - both wickets and overs
+        extraStatus = -1;//1 - wicket only, 2 - overs only, 3 - both wickets and overs
         boolean extraWicket = false, extraOver = false;
         if(isPlayerBatting && playerWickets >= MAX_PLAYER_WICKETS)
             extraWicket = true;
@@ -327,8 +331,11 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
         } else if(extraOver)
             extraStatus = 2;
 
-        if(extraStatus != -1)
-            showVideoAdDialog(extraStatus);
+        if((extraStatus == 1 && addExtraWicket) || (extraStatus == 2 && addExtraOver) || (extraStatus == 3 && addExtraWicket && addExtraOver))
+            showVideoAdDialog();
+        else if(extraStatus != -1){
+            onRewardCancelled();
+        }
 
         if(firstInningsOver) {
             int status = checkGameOverByRuns();
@@ -369,10 +376,12 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
 
     private void addExtraWicket() {
         MAX_PLAYER_WICKETS += 1;
+        addExtraWicket = false;
     }
 
     private void addExtraOver() {
         MAX_PLAYER_OVERS += 1;
+        addExtraOver = false;
     }
 
     private void handleInningsChange() {
@@ -504,10 +513,12 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
                             @Override
                             public void onAdDismissedFullScreenContent() {
                                 loadAd();
+                                onRewardCancelled();
                             }
 
                             @Override
                             public void onAdFailedToShowFullScreenContent(@NonNull AdError adError) {
+                                Log.d("myTag", adError.getMessage());
                                 mRewardedAd = null;
                             }
 
@@ -520,6 +531,7 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
 
                     @Override
                     public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                        Log.d("myTag", loadAdError.getMessage());
                         mRewardedAd = null;
                     }
                 });
@@ -629,7 +641,11 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
         stopSound();
     }
 
-    private void showVideoAdDialog(int extraStatus) {
+    private void showVideoAdDialog() {
+        if(mRewardedAd == null) {
+            onRewardCancelled();
+            return;
+        }
         AlertDialog.Builder alert = new AlertDialog.Builder(PlayingScreen.this);
         View mView = getLayoutInflater().inflate(R.layout.rewarded_video_dialog, null);
         alert.setView(mView);
@@ -638,8 +654,8 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
         ImageButton cancel = mView.findViewById(R.id.cancel);
         Button continueBtn = mView.findViewById(R.id.continueBtn);
 
-        final AlertDialog alertDialog = alert.create();
-        alertDialog.setCanceledOnTouchOutside(false);
+        rewardedAdDialog = alert.create();
+        rewardedAdDialog.setCanceledOnTouchOutside(false);
 
         String msg = "";
         switch (extraStatus) {
@@ -652,22 +668,13 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
         }
         text.setText(msg);
 
-        cancel.setOnClickListener(view -> {
-            alertDialog.dismiss();
-            if(extraStatus == 1)
-                playerRuns -= playerChosenNumber;
-            handleInningsChange();
-        });
+        cancel.setOnClickListener(view -> onRewardCancelled());
 
         continueBtn.setOnClickListener(view -> {
             if (mRewardedAd != null) {
                 Activity activityContext = PlayingScreen.this;
                 mRewardedAd.show(activityContext, rewardItem -> {
                     Log.d("myTag", "The user earned the reward.");
-                    int rewardAmount = rewardItem.getAmount();
-                    String rewardType = rewardItem.getType();
-                    Log.d("myTag", "Reward Amount"+rewardAmount);
-                    Log.d("myTag", "Reward Type"+rewardType);
                     switch (extraStatus) {
                         case 1: addExtraWicket();
                                 break;
@@ -679,9 +686,17 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
                     }
                 });
             }
-            alertDialog.dismiss();
+            rewardedAdDialog.dismiss();
         });
 
-        alertDialog.show();
+        rewardedAdDialog.show();
+    }
+
+    public void onRewardCancelled() {
+        if(rewardedAdDialog != null)
+            rewardedAdDialog.dismiss();
+        if(extraStatus == 1)
+            playerRuns -= playerChosenNumber;
+        handleInningsChange();
     }
 }
