@@ -1,7 +1,6 @@
 package com.Hand_Cricket;
 
 import android.app.AlarmManager;
-import android.app.Application;
 import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
 import android.content.Context;

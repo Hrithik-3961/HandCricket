@@ -11,7 +11,8 @@
         android:background="@drawable/cancel"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"/>
+        android:layout_marginEnd="10dp"
+        android:contentDescription="@string/cancel_button_desc" />
 
     <TextView
         android:id="@+id/text"
@@ -27,7 +28,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/text"
-        android:text="continue"
+        android:text="@string/continueBtnText"
         android:textColor="@android:color/white"
         android:backgroundTint="@android:color/holo_red_dark"
         android:layout_centerHorizontal="true"
