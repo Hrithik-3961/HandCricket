@@ -3,6 +3,8 @@ package com.Hand_Cricket;
 import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.media.AudioAttributes;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -13,6 +15,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,9 +26,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.airbnb.lottie.LottieAnimationView;
 
+import java.util.Objects;
+
 public class Play extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    private Button toss, heads, tails, close, toastButton;
+    private Button toss, heads, tails, toastButton;
+    private ImageButton close;
     private TextView text;
     private LottieAnimationView tossAnimation;
     private boolean flag = true, soundOn = true;
@@ -61,7 +67,7 @@ public class Play extends AppCompatActivity implements AdapterView.OnItemSelecte
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         spinnerText = parent.getItemAtPosition(position).toString();
 
-        if (spinnerText.equals("--Select Overs--") || spinnerText.equals("")) {
+        if (spinnerText.equals("--Select Overs--") || spinnerText.isEmpty()) {
             toss.setEnabled(false);
             toastButton.setEnabled(true);
             toastButton.setVisibility(View.VISIBLE);
@@ -93,6 +99,7 @@ public class Play extends AppCompatActivity implements AdapterView.OnItemSelecte
 
         final AlertDialog alertDialog = alert.create();
         alertDialog.setCanceledOnTouchOutside(false);
+        Objects.requireNonNull(alertDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         heads.setOnClickListener(v -> process(1));
 

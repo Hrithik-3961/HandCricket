@@ -8,8 +8,8 @@ import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,7 +21,7 @@ import com.google.android.gms.ads.MobileAds;
 
 public class HowTo extends AppCompatActivity {
 
-    private Button back;
+    private ImageButton back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

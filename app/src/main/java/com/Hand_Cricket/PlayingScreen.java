@@ -4,6 +4,8 @@ import android.animation.Animator;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.media.AudioAttributes;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -43,6 +45,7 @@ import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.Objects;
 import java.util.stream.IntStream;
 
 public class PlayingScreen extends AppCompatActivity implements View.OnClickListener {
@@ -128,10 +131,10 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
         }
 
 
-        final Button back = findViewById(R.id.back);
+        final ImageButton back = findViewById(R.id.back);
         back.setOnClickListener(v -> onBackPressed());
 
-        final Button more = findViewById(R.id.more);
+        final ImageButton more = findViewById(R.id.more);
         more.setOnClickListener(v -> {
 
             final PopupMenu popupMenu = new PopupMenu(PlayingScreen.this, v);
@@ -256,7 +259,7 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
         final AlertDialog alertDialog = alert.create();
         alertDialog.setCanceledOnTouchOutside(true);
 
-        Button backHowTo = mView.findViewById(R.id.back);
+        ImageButton backHowTo = mView.findViewById(R.id.back);
         backHowTo.setVisibility(View.GONE);
 
         Button ok = mView.findViewById(R.id.ok);
@@ -353,7 +356,7 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
             playerStatus.setText(getText(R.string.playerBowling));
 
         playerHand = findViewById(R.id.playerHand);
-        playerHand.setBackgroundResource(GameConstants.handResID[playerChosenNumber]);
+        playerHand.setImageResource(GameConstants.handResID[playerChosenNumber]);
 
         String s;
         if(isPlayerBatting)
@@ -371,7 +374,7 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
         score1.setText(s);
 
         computerHand = findViewById(R.id.computerHand);
-        computerHand.setBackgroundResource(GameConstants.handResID[computerChosenNumber]);
+        computerHand.setImageResource(GameConstants.handResID[computerChosenNumber]);
     }
 
     private void addExtraWicket() {
@@ -441,6 +444,7 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
         alert.setView(mView);
         final AlertDialog alertDialog = alert.create();
         alertDialog.setCanceledOnTouchOutside(false);
+        Objects.requireNonNull(alertDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         if (firstInningsOver && status != -1)
             text2.setVisibility(View.GONE);
@@ -464,8 +468,8 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
         alertDialog.show();
 
         if (status == -1) {
-            computerHand.setBackgroundResource(R.drawable.image0);
-            playerHand.setBackgroundResource(R.drawable.image0);
+            computerHand.setImageResource(R.drawable.image0);
+            playerHand.setImageResource(R.drawable.image0);
             updateView();
         }
 
@@ -656,6 +660,8 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
 
         rewardedAdDialog = alert.create();
         rewardedAdDialog.setCanceledOnTouchOutside(false);
+        Objects.requireNonNull(rewardedAdDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
 
         String msg = "";
         switch (extraStatus) {

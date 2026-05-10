@@ -1,81 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="500dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp"
+    app:cardCornerRadius="24dp"
+    app:cardElevation="12dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="500dp"
-        android:background="@color/colorAccent">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp">
 
-        <Button
-            android:id="@+id/close"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="300dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="50dp"
-            android:background="@drawable/cancel"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+        <View
+            android:id="@+id/header_bg"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="@color/pitchColor"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/text"
+            android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="20dp"
-            android:layout_marginTop="130dp"
+            android:fontFamily="sans-serif-black"
+            android:text="@string/toss_title"
+            android:textColor="@color/white"
+            android:textSize="32sp"
+            app:layout_constraintBottom_toBottomOf="@+id/header_bg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/header_bg" />
+
+        <ImageButton
+            android:id="@+id/close"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_margin="8dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_cancel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/white"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
             android:text="@string/Toss_Page"
             android:textAlignment="center"
-            android:textSize="35sp"
+            android:textColor="@color/textColor"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/header_bg" />
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/tossAnimation"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_marginVertical="24dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/barrier"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text"
             app:lottie_autoPlay="false"
             app:lottie_fileName="flip-a-coin.json" />
 
-        <Button
-            android:id="@+id/heads"
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/text"
-            android:layout_marginStart="80dp"
-            android:layout_marginEnd="55dp"
-            android:layout_marginBottom="130dp"
-            android:background="@color/colorPrimary"
+            app:barrierDirection="top"
+            app:constraint_referenced_ids="heads,tails" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/heads"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="32dp"
             android:text="@string/Heads"
             android:textSize="18sp"
+            android:backgroundTint="@color/pitchColor"
+            app:cornerRadius="12dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/tails"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text"
+            app:layout_constraintVertical_bias="1.0" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/tails"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/text"
-            android:layout_marginStart="55dp"
-            android:layout_marginEnd="80dp"
-            android:layout_marginBottom="130dp"
-            android:layout_toEndOf="@+id/heads"
-            android:background="@color/colorPrimary"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:layout_marginHorizontal="24dp"
             android:text="@string/Tails"
             android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:backgroundTint="@color/pitchColor"
+            app:cornerRadius="12dp"
+            app:layout_constraintBottom_toBottomOf="@+id/heads"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/heads" />
+            app:layout_constraintStart_toEndOf="@+id/heads"
+            app:layout_constraintTop_toTopOf="@+id/heads" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</RelativeLayout>
+</com.google.android.material.card.MaterialCardView>

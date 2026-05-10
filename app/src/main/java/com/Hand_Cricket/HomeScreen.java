@@ -13,6 +13,7 @@ import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -33,7 +34,7 @@ public class HomeScreen extends AppCompatActivity {
 
     private boolean flag, soundOn = true, vibrationOn = true;
 
-    private Button sound, vibration;
+    private ImageButton sound, vibration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -165,17 +166,17 @@ public class HomeScreen extends AppCompatActivity {
     public void updateSoundIcon() {
 
         if (!soundOn)
-            sound.setBackgroundResource(R.drawable.sound_off_icon);
+            sound.setImageResource(R.drawable.sound_off_icon);
         else
-            sound.setBackgroundResource(R.drawable.sound_on_icon);
+            sound.setImageResource(R.drawable.sound_on_icon);
     }
 
     public void updateVibrationIcon() {
 
         if (!vibrationOn)
-            vibration.setBackgroundResource(R.drawable.vibration_off_icon);
+            vibration.setImageResource(R.drawable.vibration_off_icon);
         else
-            vibration.setBackgroundResource(R.drawable.vibration_on_icon);
+            vibration.setImageResource(R.drawable.vibration_on_icon);
     }
 
     public void rate(View view) {

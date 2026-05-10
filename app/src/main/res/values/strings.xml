@@ -9,6 +9,7 @@
     <string name="How_To_Play">How To Play</string>
     <string name="How_To_Info">-To score runs, click on the desired number you wish to Score.\n\n-The device also chooses a random number between 1 to 10.\n\n-Showing of same number results in a wicket else the runs are increased for the one who is batting by the number shown.\n\n-Each player has 3 wickets. One who scores maximum runs wins.\n\n GOOD LUCK!!</string>
     <string name="Toss">TOSS</string>
+    <string name="select_overs">Select Overs</string>
     <string name="Toss_Page">Choose Heads or Tails to Toss.</string>
     <string name="Heads">Heads</string>
     <string name="Tails">Tails</string>
@@ -69,6 +70,8 @@
     <string name="add_extra_resources">Want to continue the game?\nWatch a short video to get an extra %1$s</string>
     <string name="continueBtnText">Continue</string>
     <string name="cancel_button_desc">Cancel Button</string>
+    <string name="bonus_reward">BONUS REWARD</string>
+    <string name="toss_title">MATCH TOSS</string>
     <plurals name="score_summary">
         <item quantity="one">%1$d/%2$d in %3$.1f over</item>
         <item quantity="other">%1$d/%2$d in %3$.1f overs</item>

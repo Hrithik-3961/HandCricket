@@ -1,93 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomeScreen"
-    android:background="@color/colorPrimaryDark">
+    android:background="@drawable/main_gradient_bg"
+    tools:context=".HomeScreen">
 
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/app_name"
-        android:textAlignment="center"
-        android:layout_marginTop="55dp"
-        android:fontFamily="serif-monospace"
-        android:textStyle="bold"
-        android:textSize="40sp"
+        android:fontFamily="sans-serif-black"
+        android:textSize="48sp"
         android:textColor="@color/white"
-        android:layout_centerHorizontal="true"/>
+        android:layout_marginTop="80dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:shadowColor="#40000000"
+        android:shadowDx="4"
+        android:shadowDy="4"
+        android:shadowRadius="8"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/PlayButton"
+        android:layout_width="240dp"
+        android:layout_height="72dp"
+        android:text="@string/Play"
+        android:textSize="24sp"
+        android:layout_marginBottom="24dp"
+        app:cornerRadius="36dp"
+        app:layout_constraintBottom_toTopOf="@+id/HowToButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        android:backgroundTint="@color/buttonColor"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/HowToButton"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="240dp"
+        android:layout_height="72dp"
+        android:text="@string/How_To"
+        android:textSize="24sp"
+        android:textColor="@color/white"
+        app:strokeColor="@color/white"
+        app:strokeWidth="2dp"
+        app:cornerRadius="36dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_actions"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/PlayButton"
+        android:layout_marginBottom="48dp"/>
 
     <LinearLayout
+        android:id="@+id/bottom_actions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/HowToButton"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp">
+        android:layout_marginBottom="48dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
-        <Button
+        <ImageButton
             android:id="@+id/sound"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_marginEnd="15dp"
-            android:background="@drawable/sound_on_icon"
-            android:backgroundTint="@color/white"
-            tools:ignore="ButtonStyle" />
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_marginEnd="16dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/sound_on_icon"
+            app:tint="@color/white"
+            tools:ignore="ContentDescription" />
 
-        <Button
+        <ImageButton
             android:id="@+id/vibrate"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_marginEnd="15dp"
-            android:background="@drawable/vibration_on_icon"
-            android:backgroundTint="@color/white"
-            tools:ignore="ButtonStyle"/>
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_marginEnd="16dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/vibration_on_icon"
+            app:tint="@color/white"
+            tools:ignore="ContentDescription" />
 
-        <Button
+        <ImageButton
             android:id="@+id/share"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_marginEnd="15dp"
-            android:background="@drawable/share_icon"
-            android:backgroundTint="@color/white"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_marginEnd="16dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/share_icon"
+            app:tint="@color/white"
             android:onClick="share"
-            tools:ignore="ButtonStyle"/>
+            tools:ignore="ContentDescription" />
 
-        <Button
+        <ImageButton
             android:id="@+id/rate"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:background="@drawable/rate_icon"
-            android:backgroundTint="@color/white"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/rate_icon"
+            app:tint="@color/white"
             android:onClick="rate"
-            tools:ignore="ButtonStyle"/>
+            tools:ignore="ContentDescription" />
 
     </LinearLayout>
 
-
-
-    <Button
-        android:id="@+id/PlayButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="350dp"
-        android:background="@drawable/button"
-        android:text="@string/Play"
-        android:textSize="25sp"
-        tools:ignore="RelativeOverlap" />
-
-    <Button
-        android:id="@+id/HowToButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/PlayButton"
-        android:layout_centerInParent="true"
-        android:background="@drawable/button"
-        android:layout_marginTop="50dp"
-        android:textSize="25sp"
-        android:text="@string/How_To" />
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

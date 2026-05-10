@@ -2,6 +2,8 @@ package com.Hand_Cricket;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.media.AudioAttributes;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -25,6 +27,8 @@ import com.google.android.gms.ads.FullScreenContentCallback;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
+
+import java.util.Objects;
 
 public class AfterGameEnds extends AppCompatActivity {
 
@@ -216,6 +220,7 @@ public class AfterGameEnds extends AppCompatActivity {
 
         final AlertDialog alertDialog = alert.create();
         alertDialog.setCanceledOnTouchOutside(false);
+        Objects.requireNonNull(alertDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         totalOvers.setText(getString(R.string.total_overs, overs));
         playerSummary.setText(getResources().getQuantityString(R.plurals.score_summary, playerOvers <= 1 ? 1:2, playerPoints, playerWickets, playerOvers));
