@@ -1,10 +1,8 @@
 package com.Hand_Cricket;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
-import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.Window;
 import android.view.WindowManager;
@@ -14,10 +12,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
+import com.Hand_Cricket.ads.BannerAdHelper;
 
 public class HowTo extends AppCompatActivity {
 
@@ -32,7 +27,7 @@ public class HowTo extends AppCompatActivity {
 
         FrameLayout adContainer = findViewById(R.id.adView);
         Display display = getWindowManager().getDefaultDisplay();
-        loadBanner(adContainer, this, display);
+        BannerAdHelper.loadBanner(adContainer, this, display);
 
         TextView text = findViewById(R.id.text);
         text.setMovementMethod(new ScrollingMovementMethod());
@@ -46,32 +41,6 @@ public class HowTo extends AppCompatActivity {
 
     }
 
-    void loadBanner(FrameLayout adContainer, Context context, Display display) {
-
-        MobileAds.initialize(context, initializationStatus -> {
-        });
-
-        AdView mAdView = new AdView(context);
-        mAdView.setAdUnitId(context.getString(R.string.BannerID));
-        adContainer.addView(mAdView);
-
-        AdRequest adRequest = new AdRequest.Builder().build();
-        AdSize adSize = getAdsize(context, display);
-        mAdView.setAdSize(adSize);
-        mAdView.loadAd(adRequest);
-    }
-
-    AdSize getAdsize(Context context, Display display) {
-        DisplayMetrics outMetrics = new DisplayMetrics();
-        display.getMetrics(outMetrics);
-
-        float widthPixels = outMetrics.widthPixels;
-        float density = outMetrics.density;
-
-        int adWidth = (int) (widthPixels / density);
-
-        return AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(context, adWidth);
-    }
 
     @Override
     public void onBackPressed() {

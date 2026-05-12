@@ -1,4 +1,6 @@
 <resources>
+    <string name="AppID">ca-app-pub-5909989608288926~4087025377</string>
+
     <string name="toast">~Created by HRITHIK AGARWAL.</string>
     <string name="app_name">Hand Cricket</string>
     <string name="Loading">Loading…</string>
@@ -89,22 +91,6 @@
         <item>Oops! You lost the match!</item>
         <item>It\'s a tie!</item>
     </array>
-
-    <!-- Real
-    <string name="AppID">ca-app-pub-5909989608288926~4087025377</string>
-    <string name="AppOpenID">ca-app-pub-5909989608288926/6359617889</string>
-    <string name="BannerID">ca-app-pub-5909989608288926/3733454545</string>
-    <string name="InterstitialID">ca-app-pub-5909989608288926/2420372875</string>
-    <string name="RewardedID">ca-app-pub-5909989608288926/9217715516</string>
-    -->
-
-    <!--  Test  -->
-    <string name="AppID">ca-app-pub-3940256099942544~3347511713</string>
-    <string name="AppOpenID">ca-app-pub-3940256099942544/9257395921</string>
-    <string name="BannerID">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="InterstitialID">ca-app-pub-3940256099942544/1033173712</string>
-    <string name="RewardedID">ca-app-pub-3940256099942544/5224354917</string>
-
 
     <string-array name="overs">
         <item>--Select Overs--</item>

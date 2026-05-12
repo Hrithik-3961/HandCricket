@@ -7,7 +7,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.media.AudioAttributes;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.Window;
@@ -16,23 +15,17 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.Hand_Cricket.ads.BannerAdHelper;
+import com.Hand_Cricket.ads.InterstitialAdHelper;
 import com.airbnb.lottie.LottieAnimationView;
-import com.google.android.gms.ads.AdError;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.FullScreenContentCallback;
-import com.google.android.gms.ads.LoadAdError;
-import com.google.android.gms.ads.interstitial.InterstitialAd;
-import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 
 import java.util.Objects;
 
 public class AfterGameEnds extends AppCompatActivity {
 
-    private boolean flag;
     private boolean playerBatting;
 
     private int winStatus, playerPoints, playerWickets, computerPoints, computerWickets, overs;
@@ -40,7 +33,7 @@ public class AfterGameEnds extends AppCompatActivity {
 
     private MediaPlayer gameWonSound, gameLostSound;
 
-    private InterstitialAd mInterstitialAd;
+    private InterstitialAdHelper interstitialHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,9 +46,10 @@ public class AfterGameEnds extends AppCompatActivity {
 
         FrameLayout adContainer = findViewById(R.id.adView);
         Display display = getWindowManager().getDefaultDisplay();
-        new HowTo().loadBanner(adContainer, this, display);
+        BannerAdHelper.loadBanner(adContainer, this, display);
 
-        loadAd();
+        interstitialHelper = new InterstitialAdHelper(this);
+        interstitialHelper.load();
 
         Bundle bundle = getIntent().getExtras();
         assert bundle != null;
@@ -106,67 +100,24 @@ public class AfterGameEnds extends AppCompatActivity {
 
         Button playAgain = findViewById(R.id.playAgain);
         playAgain.setOnClickListener(v -> {
-
-            flag = true;
-
-            if (mInterstitialAd != null) {
-                mInterstitialAd.show(AfterGameEnds.this);
-            } else
-                resumeActivity();
+            interstitialHelper.show(() -> {
+                stopPlayer();
+                Intent intent = new Intent(AfterGameEnds.this, Play.class);
+                startActivity(intent);
+                finish();
+            });
         });
 
         Button mainMenu = findViewById(R.id.mainMenu);
         mainMenu.setOnClickListener(v -> {
-
-            flag = false;
-
-            if (mInterstitialAd != null) {
-                mInterstitialAd.show(AfterGameEnds.this);
-            } else
-                resumeActivity();
+            interstitialHelper.show(() -> {
+                stopPlayer();
+                Intent intent = new Intent(AfterGameEnds.this, HomeScreen.class);
+                startActivity(intent);
+                finish();
+            });
         });
 
-    }
-
-    private void loadAd() {
-        AdRequest adRequest = new AdRequest.Builder().build();
-        InterstitialAd.load(this, getString(R.string.InterstitialID), adRequest,
-                new InterstitialAdLoadCallback() {
-                    @Override
-                    public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
-                        mInterstitialAd = interstitialAd;
-                        mInterstitialAd.setFullScreenContentCallback(new FullScreenContentCallback() {
-                            @Override
-                            public void onAdDismissedFullScreenContent() {
-                                // Called when fullscreen content is dismissed.
-                                mInterstitialAd = null;
-                                resumeActivity();
-                                Log.d("TAG", "The ad was dismissed.");
-                            }
-
-                            @Override
-                            public void onAdFailedToShowFullScreenContent(@NonNull AdError adError) {
-                                // Called when fullscreen content failed to show.
-                                mInterstitialAd = null;
-                                Log.d("TAG", "The ad failed to show.");
-                            }
-
-                            @Override
-                            public void onAdShowedFullScreenContent() {
-                                // Called when fullscreen content is shown.
-                                // Make sure to set your reference to null so you don't
-                                // show it a second time.
-                                Log.d("TAG", "The ad was shown.");
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-                        Log.d("myTag", loadAdError.getMessage());
-                        mInterstitialAd = null;
-                    }
-                });
     }
 
     private void stopPlayer() {
@@ -184,23 +135,6 @@ public class AfterGameEnds extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         stopPlayer();
-    }
-
-    private void resumeActivity() {
-
-        stopPlayer();
-
-        if(mInterstitialAd == null)
-            loadAd();
-
-        Intent intent;
-        if (flag) {
-            intent = new Intent(AfterGameEnds.this, Play.class);
-        } else {
-            intent = new Intent(AfterGameEnds.this, HomeScreen.class);
-        }
-        startActivity(intent);
-        finish();
     }
 
     public void scoreCard(View view) {

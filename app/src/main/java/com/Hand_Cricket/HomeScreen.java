@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.Window;
@@ -16,23 +15,17 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.ads.AdError;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.FullScreenContentCallback;
-import com.google.android.gms.ads.LoadAdError;
-import com.google.android.gms.ads.interstitial.InterstitialAd;
-import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
+import com.Hand_Cricket.ads.InterstitialAdHelper;
 
 import java.util.Calendar;
 
 public class HomeScreen extends AppCompatActivity {
 
-    private InterstitialAd mInterstitialAd;
+    private InterstitialAdHelper interstitialHelper;
 
-    private boolean flag, soundOn = true, vibrationOn = true;
+    private boolean soundOn = true, vibrationOn = true;
 
     private ImageButton sound, vibration;
 
@@ -76,86 +69,26 @@ public class HomeScreen extends AppCompatActivity {
         });
         updateVibrationIcon();
 
-        loadAd();
+        interstitialHelper = new InterstitialAdHelper(this);
+        interstitialHelper.load();
 
         Button playButton = findViewById(R.id.PlayButton);
         playButton.setOnClickListener(v -> {
-
-            flag = true;
-
-            if (mInterstitialAd != null) {
-                mInterstitialAd.show(HomeScreen.this);
-            } else
-                resumeActivity();
+            interstitialHelper.show(() -> {
+                Intent intent = new Intent(HomeScreen.this, Play.class);
+                startActivity(intent);
+            });
         });
 
         Button howToButton = findViewById(R.id.HowToButton);
         howToButton.setOnClickListener(v -> {
-
-            flag = false;
-
-            if (mInterstitialAd != null) {
-                mInterstitialAd.show(HomeScreen.this);
-            } else
-                resumeActivity();
+            interstitialHelper.show(() -> {
+                Intent intent = new Intent(HomeScreen.this, HowTo.class);
+                startActivity(intent);
+                finish();
+            });
         });
 
-    }
-
-    private void loadAd() {
-        AdRequest adRequest = new AdRequest.Builder().build();
-        InterstitialAd.load(this, getString(R.string.InterstitialID), adRequest,
-                new InterstitialAdLoadCallback() {
-                    @Override
-                    public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
-                        mInterstitialAd = interstitialAd;
-                        mInterstitialAd.setFullScreenContentCallback(new FullScreenContentCallback() {
-                            @Override
-                            public void onAdDismissedFullScreenContent() {
-                                // Called when fullscreen content is dismissed.
-                                mInterstitialAd = null;
-                                resumeActivity();
-                                Log.d("TAG", "The ad was dismissed.");
-                            }
-
-                            @Override
-                            public void onAdFailedToShowFullScreenContent(@NonNull AdError adError) {
-                                // Called when fullscreen content failed to show.
-                                mInterstitialAd = null;
-                                Log.d("TAG", "The ad failed to show.");
-                            }
-
-                            @Override
-                            public void onAdShowedFullScreenContent() {
-                                // Called when fullscreen content is shown.
-                                // Make sure to set your reference to null so you don't
-                                // show it a second time.
-                                Log.d("TAG", "The ad was shown.");
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-                        Log.d("myTag", loadAdError.getMessage());
-                        mInterstitialAd = null;
-                    }
-                });
-    }
-
-    private void resumeActivity() {
-
-        if(mInterstitialAd == null)
-            loadAd();
-
-        if (flag) {
-            Intent intent = new Intent(HomeScreen.this, Play.class);
-            startActivity(intent);
-        } else {
-            Intent intent = new Intent(HomeScreen.this, HowTo.class);
-            startActivity(intent);
-            finish();
-        }
     }
 
     @Override

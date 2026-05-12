@@ -35,13 +35,9 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.text.HtmlCompat;
 
+import com.Hand_Cricket.ads.BannerAdHelper;
+import com.Hand_Cricket.ads.RewardedAdHelper;
 import com.airbnb.lottie.LottieAnimationView;
-import com.google.android.gms.ads.AdError;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.FullScreenContentCallback;
-import com.google.android.gms.ads.LoadAdError;
-import com.google.android.gms.ads.rewarded.RewardedAd;
-import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -77,7 +73,7 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
 
     private TextView playerStatus, oversDisplay;
     private ImageView computerHand, playerHand;
-    private RewardedAd mRewardedAd;
+    private RewardedAdHelper rewardedHelper;
     private AlertDialog rewardedAdDialog;
 
     @Override
@@ -90,9 +86,10 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
 
         FrameLayout adContainer = findViewById(R.id.adView);
         Display display = getWindowManager().getDefaultDisplay();
-        new HowTo().loadBanner(adContainer, this, display);
+        BannerAdHelper.loadBanner(adContainer, this, display);
 
-        loadAd();
+        rewardedHelper = new RewardedAdHelper(this);
+        rewardedHelper.load();
 
         Bundle bundle = getIntent().getExtras();
         assert bundle != null;
@@ -505,42 +502,6 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
         });
     }
 
-    private void loadAd() {
-        AdRequest adRequest = new AdRequest.Builder().build();
-        RewardedAd.load(this, getString(R.string.RewardedID),
-                adRequest, new RewardedAdLoadCallback() {
-
-                    @Override
-                    public void onAdLoaded(@NonNull RewardedAd rewardedAd) {
-                        mRewardedAd = rewardedAd;
-                        mRewardedAd.setFullScreenContentCallback(new FullScreenContentCallback() {
-                            @Override
-                            public void onAdDismissedFullScreenContent() {
-                                loadAd();
-                                onRewardCancelled();
-                            }
-
-                            @Override
-                            public void onAdFailedToShowFullScreenContent(@NonNull AdError adError) {
-                                Log.d("myTag", adError.getMessage());
-                                mRewardedAd = null;
-                            }
-
-                            @Override
-                            public void onAdShowedFullScreenContent() {
-                                mRewardedAd = null;
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-                        Log.d("myTag", loadAdError.getMessage());
-                        mRewardedAd = null;
-                    }
-                });
-    }
-
     private void setButtonsEnableDisable(boolean flag) {
         IntStream.range(0,10).mapToObj(i -> (Button) findViewById(GameConstants.btnResID[i])).forEach(btn -> btn.setEnabled(flag));
     }
@@ -646,7 +607,8 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
     }
 
     private void showVideoAdDialog() {
-        if(mRewardedAd == null) {
+        if(!rewardedHelper.isAdAvailable()) {
+            rewardedHelper.load();
             onRewardCancelled();
             return;
         }
@@ -677,21 +639,31 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
         cancel.setOnClickListener(view -> onRewardCancelled());
 
         continueBtn.setOnClickListener(view -> {
-            if (mRewardedAd != null) {
-                Activity activityContext = PlayingScreen.this;
-                mRewardedAd.show(activityContext, rewardItem -> {
+            rewardedHelper.show(new RewardedAdHelper.Listener() {
+                @Override
+                public void onRewardEarned() {
                     Log.d("myTag", "The user earned the reward.");
                     switch (extraStatus) {
                         case 1: addExtraWicket();
-                                break;
+                            break;
                         case 2: addExtraOver();
-                                break;
+                            break;
                         case 3: addExtraWicket();
-                                addExtraOver();
-                                break;
+                            addExtraOver();
+                            break;
                     }
-                });
-            }
+                }
+
+                @Override
+                public void onAdFailed() {
+                    Log.d("myTag", "The ad failed to load.");
+                }
+
+                @Override
+                public void onAdClosed() {
+                    onRewardCancelled();
+                }
+            });
             rewardedAdDialog.dismiss();
         });
 
