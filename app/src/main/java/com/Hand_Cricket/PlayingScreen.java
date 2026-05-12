@@ -120,8 +120,11 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
 
         if (soundOn) {
             if (crowdSound == null) {
-                crowdSound = MediaPlayer.create(this, R.raw.crowd);
-                crowdSound.setAudioAttributes(new AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build());
+                AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                        .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                        .setUsage(AudioAttributes.USAGE_GAME)
+                        .build();
+                crowdSound = MediaPlayer.create(this, R.raw.crowd, audioAttributes, 0);
                 crowdSound.setOnCompletionListener(mp -> stopSound());
             }
             crowdSound.start();
@@ -261,9 +264,9 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
 
-        if (crowdSound != null) {
-            crowdSound.release();
-            crowdSound = null;
+        if (crowdSound != null && crowdSound.isPlaying()) {
+            crowdSound.pause();
+            crowdSound.seekTo(0);
         }
 
         currentBalls++;
@@ -493,8 +496,11 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
             if (status == -1) {
                 if (soundOn) {
                     if (crowdSound == null) {
-                        crowdSound = MediaPlayer.create(PlayingScreen.this, R.raw.crowd);
-                        crowdSound.setAudioAttributes(new AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build());
+                        AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                                .setUsage(AudioAttributes.USAGE_GAME)
+                                .build();
+                        crowdSound = MediaPlayer.create(PlayingScreen.this, R.raw.crowd, audioAttributes, 0);
                         crowdSound.setOnCompletionListener(mp -> stopSound());
                     }
                     crowdSound.start();
@@ -522,17 +528,19 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
         }
 
         if (soundOn) {
+            AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                    .setUsage(AudioAttributes.USAGE_GAME)
+                    .build();
             if (isPlayerBatting) {
                 if (myWicketSound == null) {
-                    myWicketSound = MediaPlayer.create(this, R.raw.my_wicket);
-                    myWicketSound.setAudioAttributes(new AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build());
+                    myWicketSound = MediaPlayer.create(this, R.raw.my_wicket, audioAttributes, 0);
                     myWicketSound.setOnCompletionListener(mp -> stopSound());
                 }
                 myWicketSound.start();
             } else {
                 if (opponentWicketSound == null) {
-                    opponentWicketSound = MediaPlayer.create(this, R.raw.opponent_wicket);
-                    opponentWicketSound.setAudioAttributes(new AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build());
+                    opponentWicketSound = MediaPlayer.create(this, R.raw.opponent_wicket, audioAttributes, 0);
                     opponentWicketSound.setOnCompletionListener(mp -> stopSound());
                 }
                 opponentWicketSound.start();
@@ -580,18 +588,38 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
     }
 
     public void stopSound() {
-        if (myWicketSound != null) {
-            myWicketSound.release();
-            myWicketSound = null;
+        if (myWicketSound != null && myWicketSound.isPlaying()) {
+            myWicketSound.pause();
+            myWicketSound.seekTo(0);
         }
-        if (opponentWicketSound != null) {
-            opponentWicketSound.release();
-            opponentWicketSound = null;
+        if (opponentWicketSound != null && opponentWicketSound.isPlaying()) {
+            opponentWicketSound.pause();
+            opponentWicketSound.seekTo(0);
         }
 
-        if (crowdSound != null) {
-            crowdSound.release();
-            crowdSound = null;
+        if (crowdSound != null && crowdSound.isPlaying()) {
+            crowdSound.pause();
+            crowdSound.seekTo(0);
+        }
+    }
+
+    private void pausePlayer(MediaPlayer player) {
+        if (player != null && player.isPlaying()) {
+            player.pause();
+            player.seekTo(0);
+        }
+    }
+
+    private void releasePlayer(MediaPlayer player) {
+        if (player != null) {
+            try {
+                if (player.isPlaying()) {
+                    player.stop();
+                }
+                player.release();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -604,9 +632,17 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-        stopSound();
+    protected void onDestroy() {
+        super.onDestroy();
+
+        releasePlayer(crowdSound);
+        crowdSound = null;
+
+        releasePlayer(myWicketSound);
+        myWicketSound = null;
+
+        releasePlayer(opponentWicketSound);
+        opponentWicketSound = null;
     }
 
     private void showVideoAdDialog() {

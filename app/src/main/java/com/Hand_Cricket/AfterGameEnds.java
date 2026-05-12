@@ -73,8 +73,11 @@ public class AfterGameEnds extends AppCompatActivity {
                 animation.setAnimation("winners-animation.json");
                 if (soundOn) {
                     if (gameWonSound == null) {
-                        gameWonSound = MediaPlayer.create(this, R.raw.game_won);
-                        gameWonSound.setAudioAttributes(new AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build());
+                        AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                                .setUsage(AudioAttributes.USAGE_GAME)
+                                .build();
+                        gameWonSound = MediaPlayer.create(this, R.raw.game_won, audioAttributes, 0);
                         gameWonSound.setOnCompletionListener(mp -> stopPlayer());
                     }
                     gameWonSound.start();
@@ -84,8 +87,11 @@ public class AfterGameEnds extends AppCompatActivity {
                 animation.setAnimation("sad.json");
                 if (soundOn) {
                     if (gameLostSound == null) {
-                        gameLostSound = MediaPlayer.create(this, R.raw.game_lost);
-                        gameLostSound.setAudioAttributes(new AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build());
+                        AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                                .setUsage(AudioAttributes.USAGE_GAME)
+                                .build();
+                        gameLostSound = MediaPlayer.create(this, R.raw.game_lost, audioAttributes, 0);
                         gameLostSound.setOnCompletionListener(mp -> stopPlayer());
                     }
                     gameLostSound.start();

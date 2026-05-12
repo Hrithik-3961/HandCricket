@@ -123,8 +123,11 @@ public class Play extends AppCompatActivity implements AdapterView.OnItemSelecte
 
             if (soundOn) {
                 if (mediaPlayer == null) {
-                    mediaPlayer = MediaPlayer.create(this, R.raw.coinflip);
-                    mediaPlayer.setAudioAttributes(new AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build());
+                    AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                            .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                            .setUsage(AudioAttributes.USAGE_GAME)
+                            .build();
+                    mediaPlayer = MediaPlayer.create(this, R.raw.coinflip, audioAttributes, 0);
                     mediaPlayer.setOnCompletionListener(mp -> stopPlayer());
                 }
                 mediaPlayer.start();
