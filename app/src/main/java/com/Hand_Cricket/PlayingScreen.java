@@ -276,7 +276,7 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
         currentBalls++;
         if (currentBalls == GameConstants.MAX_BALLS_PER_OVER) {
             currentBalls = 0;
-            if(isPlayerBatting)
+            if (isPlayerBatting)
                 playerOver++;
             else
                 computerOver++;
@@ -290,11 +290,12 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
         computerChosenNumber = getRandomNumber();
 
         if (isPlayerBatting) {
-            playerRuns += playerChosenNumber;
             if (playerChosenNumber == computerChosenNumber) {
                 playerWickets++;
                 setButtonsEnableDisable(false);
                 showWicketAnimation();
+            } else {
+                playerRuns += playerChosenNumber;
             }
         } else {
             if (playerChosenNumber == computerChosenNumber) {
@@ -306,42 +307,51 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
             }
         }
 
-        if ((!isPlayerBatting && computerOver >= MAX_COMPUTER_OVERS) || (!isPlayerBatting && computerWickets >= MAX_COMPUTER_WICKETS)) {
+        if (!isPlayerBatting && (computerOver >= MAX_COMPUTER_OVERS || computerWickets >= MAX_COMPUTER_WICKETS)) {
             handleInningsChange();
+            updateView();
+            return;
+        }
+
+        if (firstInningsOver) {
+            int status = checkGameOverByRuns();
+            if ((isPlayerBatting && status == 1) || (!isPlayerBatting && status == 2)) {
+                showInningsChange(status);
+                updateView();
+                return;
+            }
         }
 
         extraStatus = -1;//1 - wicket only, 2 - overs only, 3 - both wickets and overs
-        boolean extraWicket = false, extraOver = false;
-        if(isPlayerBatting && playerWickets >= MAX_PLAYER_WICKETS)
-            extraWicket = true;
+        boolean isExtraWicket = false, isExtraOver = false;
+        if (isPlayerBatting && playerWickets >= MAX_PLAYER_WICKETS)
+            isExtraWicket = true;
 
-        if(isPlayerBatting && (playerOver >= MAX_PLAYER_OVERS))
-            extraOver = true;
+        if (isPlayerBatting && (playerOver >= MAX_PLAYER_OVERS))
+            isExtraOver = true;
 
-        if(extraWicket) {
-            if(extraOver) {
-                if(computerOver == 0)// if player is batting first
+        if (isExtraWicket) {
+            if (isExtraOver) {
+                if (computerOver == 0)// if player is batting first
                     extraStatus = 3;
-                else if(computerOver >= MAX_COMPUTER_OVERS && playerRuns <= computerRuns)// if player is batting 2nd and runs not achieved
+                else if (computerOver >= MAX_COMPUTER_OVERS && playerRuns <= computerRuns)// if player is batting 2nd and runs not achieved
                     extraStatus = 3;
                 else
                     extraStatus = 1;
             } else
                 extraStatus = 1;
-        } else if(extraOver)
+        } else if (isExtraOver)
             extraStatus = 2;
 
-        if((extraStatus == 1 && addExtraWicket) || (extraStatus == 2 && addExtraOver) || (extraStatus == 3 && addExtraWicket && addExtraOver))
-            showVideoAdDialog();
-        else if(extraStatus != -1){
-            onRewardCancelled();
+        if (extraStatus != -1) {
+            if ((extraStatus == 1 && addExtraWicket) || (extraStatus == 2 && addExtraOver) || (extraStatus == 3 && addExtraWicket && addExtraOver))
+                showVideoAdDialog();
+            else
+                onRewardCancelled();
+            updateView();
+            return;
         }
 
-        if(firstInningsOver) {
-            int status = checkGameOverByRuns();
-            if((isPlayerBatting && status == 1) || (!isPlayerBatting && status == 2))
-                showInningsChange(status);
-        }
         updateView();
     }
 
@@ -640,8 +650,10 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
 
         continueBtn.setOnClickListener(view -> {
             rewardedHelper.show(new RewardedAdHelper.Listener() {
+                private boolean isRewardEarned = false;
                 @Override
                 public void onRewardEarned() {
+                    isRewardEarned = true;
                     Log.d("myTag", "The user earned the reward.");
                     switch (extraStatus) {
                         case 1: addExtraWicket();
@@ -657,11 +669,17 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
                 @Override
                 public void onAdFailed() {
                     Log.d("myTag", "The ad failed to load.");
+                    onRewardCancelled();
                 }
 
                 @Override
                 public void onAdClosed() {
-                    onRewardCancelled();
+                    if (isRewardEarned) {
+                        updateView();
+                        setButtonsEnableDisable(true);
+                    } else {
+                        onRewardCancelled();
+                    }
                 }
             });
             rewardedAdDialog.dismiss();
@@ -671,10 +689,8 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
     }
 
     public void onRewardCancelled() {
-        if(rewardedAdDialog != null)
-            rewardedAdDialog.dismiss();
-        if(extraStatus == 1)
-            playerRuns -= playerChosenNumber;
         handleInningsChange();
+        if (rewardedAdDialog != null)
+            rewardedAdDialog.dismiss();
     }
 }
