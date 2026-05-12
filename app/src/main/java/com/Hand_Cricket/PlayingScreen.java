@@ -246,21 +246,14 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
 
     public void showHowTo() {
         AlertDialog.Builder alert = new AlertDialog.Builder(PlayingScreen.this);
-        View mView = getLayoutInflater().inflate(R.layout.activity_how_to, null);
+        View mView = getLayoutInflater().inflate(R.layout.dialog_how_to, null);
         alert.setView(mView);
-
-        TextView text = mView.findViewById(R.id.text);
-        text.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
-        text.setMovementMethod(new ScrollingMovementMethod());
 
         final AlertDialog alertDialog = alert.create();
         alertDialog.setCanceledOnTouchOutside(true);
-
-        ImageButton backHowTo = mView.findViewById(R.id.back);
-        backHowTo.setVisibility(View.GONE);
+        Objects.requireNonNull(alertDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         Button ok = mView.findViewById(R.id.ok);
-        ok.setVisibility(View.VISIBLE);
         ok.setOnClickListener(v -> alertDialog.dismiss());
         alertDialog.show();
     }
