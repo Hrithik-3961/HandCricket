@@ -82,21 +82,17 @@ public class HomeScreen extends AppCompatActivity {
         interstitialHelper.load();
 
         Button playButton = findViewById(R.id.PlayButton);
-        playButton.setOnClickListener(v -> {
-            interstitialHelper.show(() -> {
-                Intent intent = new Intent(HomeScreen.this, Play.class);
-                startActivity(intent);
-            });
-        });
+        playButton.setOnClickListener(v -> interstitialHelper.show(() -> {
+            Intent intent = new Intent(HomeScreen.this, Play.class);
+            startActivity(intent);
+        }));
 
         Button howToButton = findViewById(R.id.HowToButton);
-        howToButton.setOnClickListener(v -> {
-            interstitialHelper.show(() -> {
-                Intent intent = new Intent(HomeScreen.this, HowTo.class);
-                startActivity(intent);
-                finish();
-            });
-        });
+        howToButton.setOnClickListener(v -> interstitialHelper.show(() -> {
+            Intent intent = new Intent(HomeScreen.this, HowTo.class);
+            startActivity(intent);
+            finish();
+        }));
 
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override

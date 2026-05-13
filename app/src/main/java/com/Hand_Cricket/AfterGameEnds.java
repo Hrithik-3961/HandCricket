@@ -113,24 +113,20 @@ public class AfterGameEnds extends AppCompatActivity {
         animation.playAnimation();
 
         Button playAgain = findViewById(R.id.playAgain);
-        playAgain.setOnClickListener(v -> {
-            interstitialHelper.show(() -> {
-                stopPlayer();
-                Intent intent = new Intent(AfterGameEnds.this, Play.class);
-                startActivity(intent);
-                finish();
-            });
-        });
+        playAgain.setOnClickListener(v -> interstitialHelper.show(() -> {
+            stopPlayer();
+            Intent intent = new Intent(AfterGameEnds.this, Play.class);
+            startActivity(intent);
+            finish();
+        }));
 
         Button mainMenu = findViewById(R.id.mainMenu);
-        mainMenu.setOnClickListener(v -> {
-            interstitialHelper.show(() -> {
-                stopPlayer();
-                Intent intent = new Intent(AfterGameEnds.this, HomeScreen.class);
-                startActivity(intent);
-                finish();
-            });
-        });
+        mainMenu.setOnClickListener(v -> interstitialHelper.show(() -> {
+            stopPlayer();
+            Intent intent = new Intent(AfterGameEnds.this, HomeScreen.class);
+            startActivity(intent);
+            finish();
+        }));
 
     }
 

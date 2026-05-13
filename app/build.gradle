@@ -7,7 +7,7 @@ android {
     defaultConfig {
         applicationId "com.Hand_Cricket"
         minSdkVersion 26
-        targetSdkVersion 36
+        targetSdkVersion 37
         versionCode 8
         versionName "1.4"
 
@@ -42,10 +42,10 @@ dependencies {
 
     implementation 'androidx.appcompat:appcompat:1.7.1'
     implementation 'androidx.activity:activity:1.13.0'
-    implementation 'com.google.android.material:material:1.13.0'
+    implementation 'com.google.android.material:material:1.14.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
     implementation 'com.airbnb.android:lottie:6.7.1'
-    implementation 'com.google.android.gms:play-services-ads:22.6.0'
+    implementation 'com.google.android.gms:play-services-ads:25.2.0'
 
     def lifecycle_version = "2.10.0"
     implementation "androidx.lifecycle:lifecycle-runtime:$lifecycle_version"
