@@ -21,6 +21,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:appCategory="game"
+        android:resizeableActivity="true"
         tools:ignore="AllowBackup">
 
         <meta-data
@@ -28,29 +29,19 @@
             android:value="@string/AppID" />
 
         <activity
-            android:name=".AfterGameEnds"
-            android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity" />
+            android:name=".AfterGameEnds" />
 
         <activity
-            android:name=".PlayingScreen"
-            android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity" />
+            android:name=".PlayingScreen" />
 
         <activity
-            android:name=".Play"
-            android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity" />
+            android:name=".Play" />
 
         <activity
-            android:name=".HowTo"
-            android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity" />
+            android:name=".HowTo" />
 
         <activity
             android:name=".HomeScreen"
-            android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
