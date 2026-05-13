@@ -10,6 +10,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.Hand_Cricket.ads.BannerAdHelper;
@@ -39,11 +40,14 @@ public class HowTo extends AppCompatActivity {
             finish();
         });
 
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                back.performClick();
+            }
+        });
+
     }
 
 
-    @Override
-    public void onBackPressed() {
-        back.performClick();
-    }
 }

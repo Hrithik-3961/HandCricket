@@ -1,7 +1,6 @@
 package com.Hand_Cricket;
 
 import android.animation.Animator;
-import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Color;
@@ -12,9 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
-import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,6 +26,7 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -132,7 +130,7 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
 
 
         final ImageButton back = findViewById(R.id.back);
-        back.setOnClickListener(v -> onBackPressed());
+        back.setOnClickListener(v -> showExitDialog());
 
         final ImageButton more = findViewById(R.id.more);
         more.setOnClickListener(v -> {
@@ -194,7 +192,7 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
                     return true;
                 }
 
-                item.setShowAsAction(item.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
+                item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
                 item.setActionView(v);
                 item.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
                     @Override
@@ -213,6 +211,13 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
         });
 
         IntStream.range(0,10).mapToObj(i -> (Button) findViewById(GameConstants.btnResID[i])).forEach(btn -> btn.setOnClickListener(this));
+
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                showExitDialog();
+            }
+        });
     }
 
     public void setForceShowIcon(PopupMenu popupMenu) {
@@ -231,9 +236,7 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
                     break;
                 }
             }
-        } catch (Throwable e) {
-            e.printStackTrace();
-        }
+        } catch (Throwable ignore) {}
     }
 
     public void openPlayStore() {
@@ -479,16 +482,7 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
         ok.setOnClickListener(v -> {
 
             if (firstInningsOver && status != -1) {
-                Intent intent = new Intent(PlayingScreen.this, AfterGameEnds.class);
-                intent.putExtra(GameConstants.WIN_STATUS, status);
-                intent.putExtra(GameConstants.TOTAL_OVERS, MAX_PLAYER_OVERS);
-                intent.putExtra(GameConstants.PLAYER_RUNS, playerRuns);
-                intent.putExtra(GameConstants.PLAYER_WICKETS, playerWickets);
-                intent.putExtra(GameConstants.COMPUTER_RUNS, computerRuns);
-                intent.putExtra(GameConstants.COMPUTER_WICKETS, computerWickets);
-                intent.putExtra(GameConstants.PLAYER_OVERS, playerOversAndBalls);
-                intent.putExtra(GameConstants.COMPUTER_OVERS, computerOversAndBalls);
-                intent.putExtra(GameConstants.PLAYER_BATTING, isPlayerBatting);
+                Intent intent = getIntent(status);
                 startActivity(intent);
                 finish();
             }
@@ -509,6 +503,21 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
             alertDialog.cancel();
             setButtonsEnableDisable(true);
         });
+    }
+
+    @NonNull
+    private Intent getIntent(int status) {
+        Intent intent = new Intent(PlayingScreen.this, AfterGameEnds.class);
+        intent.putExtra(GameConstants.WIN_STATUS, status);
+        intent.putExtra(GameConstants.TOTAL_OVERS, MAX_PLAYER_OVERS);
+        intent.putExtra(GameConstants.PLAYER_RUNS, playerRuns);
+        intent.putExtra(GameConstants.PLAYER_WICKETS, playerWickets);
+        intent.putExtra(GameConstants.COMPUTER_RUNS, computerRuns);
+        intent.putExtra(GameConstants.COMPUTER_WICKETS, computerWickets);
+        intent.putExtra(GameConstants.PLAYER_OVERS, playerOversAndBalls);
+        intent.putExtra(GameConstants.COMPUTER_OVERS, computerOversAndBalls);
+        intent.putExtra(GameConstants.PLAYER_BATTING, isPlayerBatting);
+        return intent;
     }
 
     private void setButtonsEnableDisable(boolean flag) {
@@ -569,8 +578,7 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
 
     }
 
-    @Override
-    public void onBackPressed() {
+    private void showExitDialog() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
@@ -603,13 +611,6 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    private void pausePlayer(MediaPlayer player) {
-        if (player != null && player.isPlaying()) {
-            player.pause();
-            player.seekTo(0);
-        }
-    }
-
     private void releasePlayer(MediaPlayer player) {
         if (player != null) {
             try {
@@ -617,9 +618,7 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
                     player.stop();
                 }
                 player.release();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            } catch (Exception ignore) {}
         }
     }
 

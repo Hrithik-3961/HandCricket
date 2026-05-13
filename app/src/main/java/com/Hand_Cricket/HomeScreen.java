@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.Hand_Cricket.ads.InterstitialAdHelper;
@@ -89,12 +90,15 @@ public class HomeScreen extends AppCompatActivity {
             });
         });
 
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                finish();
+            }
+        });
+
     }
 
-    @Override
-    public void onBackPressed() {
-        finish();
-    }
 
     public void updateSoundIcon() {
 
