@@ -37,6 +37,7 @@ public class Play extends AppCompatActivity implements AdapterView.OnItemSelecte
     private TextView text;
     private LottieAnimationView tossAnimation;
     private boolean flag = true, soundOn = true;
+    private AlertDialog alertDialog;
 
     private String spinnerText;
 
@@ -93,7 +94,7 @@ public class Play extends AppCompatActivity implements AdapterView.OnItemSelecte
 
 
     public void onBtnClicked(View view) {
-
+        flag = true;
         AlertDialog.Builder alert = new AlertDialog.Builder(Play.this);
         @SuppressLint("InflateParams") View mView = getLayoutInflater().inflate(R.layout.toss, null);
 
@@ -105,7 +106,7 @@ public class Play extends AppCompatActivity implements AdapterView.OnItemSelecte
 
         alert.setView(mView);
 
-        final AlertDialog alertDialog = alert.create();
+        alertDialog = alert.create();
         alertDialog.setCanceledOnTouchOutside(false);
         Objects.requireNonNull(alertDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
@@ -119,11 +120,11 @@ public class Play extends AppCompatActivity implements AdapterView.OnItemSelecte
     }
 
     private void process(final int a) {
+        heads.setEnabled(false);
+        tails.setEnabled(false);
         heads.setVisibility(View.INVISIBLE);
         tails.setVisibility(View.INVISIBLE);
         text.setVisibility(View.INVISIBLE);
-        close.setVisibility(View.INVISIBLE);
-
 
         if (flag) {
             tossAnimation.setVisibility(View.VISIBLE);
@@ -136,9 +137,13 @@ public class Play extends AppCompatActivity implements AdapterView.OnItemSelecte
                             .setUsage(AudioAttributes.USAGE_GAME)
                             .build();
                     mediaPlayer = MediaPlayer.create(this, R.raw.coinflip, audioAttributes, 0);
-                    mediaPlayer.setOnCompletionListener(mp -> stopPlayer());
+                    if (mediaPlayer != null) {
+                        mediaPlayer.setOnCompletionListener(mp -> stopPlayer());
+                        mediaPlayer.start();
+                    }
+                } else {
+                    mediaPlayer.start();
                 }
-                mediaPlayer.start();
             }
 
             tossAnimation.addAnimatorListener(new Animator.AnimatorListener() {
@@ -150,10 +155,11 @@ public class Play extends AppCompatActivity implements AdapterView.OnItemSelecte
                 public void onAnimationEnd(@NonNull Animator animation) {
                     flag = false;
                     tossAnimation.setVisibility(View.GONE);
-                    close.setVisibility(View.GONE);
                     text.setVisibility(View.VISIBLE);
                     int random = 1 + (int) (Math.random() * 2);
                     if (random == a) {
+                        heads.setEnabled(true);
+                        tails.setEnabled(true);
                         heads.setVisibility(View.VISIBLE);
                         tails.setVisibility(View.VISIBLE);
                         heads.setText(getString(R.string.Batting));
@@ -166,7 +172,11 @@ public class Play extends AppCompatActivity implements AdapterView.OnItemSelecte
                         tails.setVisibility(View.GONE);
                         text.setText(s);
                         final int finalRandom = random;
-                        new Handler().postDelayed(() -> startPlaying(finalRandom), 2500);
+                        new Handler().postDelayed(() -> {
+                            if (!isFinishing() && alertDialog != null && alertDialog.isShowing()) {
+                                startPlaying(finalRandom);
+                            }
+                        }, 2000);
 
                     }
                 }
