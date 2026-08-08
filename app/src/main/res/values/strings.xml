@@ -1,6 +1,4 @@
 <resources>
-    <string name="AppID">ca-app-pub-5909989608288926~4087025377</string>
-
     <string name="toast">~Created by HRITHIK AGARWAL.</string>
     <string name="app_name">Hand Cricket</string>
     <string name="Loading">Loading…</string>

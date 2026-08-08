@@ -19,7 +19,11 @@ android {
     }
 
     buildTypes {
+        debug {
+            resValue "string", "ad_app_id", "ca-app-pub-3940256099942544~3347511713"
+        }
         release {
+            resValue "string", "ad_app_id", "ca-app-pub-5909989608288926~4087025377"
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             ndk {

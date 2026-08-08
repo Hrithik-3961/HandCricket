@@ -2,6 +2,8 @@ package com.Hand_Cricket.ads;
 
 import android.app.Activity;
 import android.content.Context;
+import androidx.annotation.NonNull;
+import android.util.Log;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.widget.FrameLayout;
@@ -19,6 +21,18 @@ public class BannerAdHelper {
         AdView adView = new AdView(activity);
         adView.setAdUnitId(AdUnitProvider.getAdUnits().getBannerId());
         adView.setAdSize(adSize);
+
+        adView.setAdListener(new com.google.android.gms.ads.AdListener() {
+            @Override
+            public void onAdFailedToLoad(@NonNull com.google.android.gms.ads.LoadAdError adError) {
+                Log.e("BannerAd", "Failed to load: " + adError.getMessage() + " (Code: " + adError.getCode() + ")");
+            }
+
+            @Override
+            public void onAdLoaded() {
+                Log.d("BannerAd", "Ad loaded successfully");
+            }
+        });
 
         container.removeAllViews();
         container.addView(adView);

@@ -1,6 +1,7 @@
 package com.Hand_Cricket.ads;
 
 import android.app.Activity;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -39,12 +40,14 @@ public class InterstitialAdHelper {
                 new InterstitialAdLoadCallback() {
                     @Override
                     public void onAdLoaded(@NonNull InterstitialAd ad) {
+                        Log.d("InterstitialAd", "Ad loaded successfully");
                         interstitialAd = ad;
                         isLoading = false;
                     }
 
                     @Override
                     public void onAdFailedToLoad(@NonNull LoadAdError error) {
+                        Log.e("InterstitialAd", "Failed to load: " + error.getMessage() + " (Code: " + error.getCode() + ")");
                         interstitialAd = null;
                         isLoading = false;
                     }

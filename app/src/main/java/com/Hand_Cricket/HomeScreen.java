@@ -20,13 +20,9 @@ import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
 
-import com.Hand_Cricket.ads.InterstitialAdHelper;
-
 import java.util.Calendar;
 
 public class HomeScreen extends AppCompatActivity {
-
-    private InterstitialAdHelper interstitialHelper;
 
     private boolean soundOn = true, vibrationOn = true;
 
@@ -78,21 +74,18 @@ public class HomeScreen extends AppCompatActivity {
         });
         updateVibrationIcon();
 
-        interstitialHelper = new InterstitialAdHelper(this);
-        interstitialHelper.load();
-
         Button playButton = findViewById(R.id.PlayButton);
-        playButton.setOnClickListener(v -> interstitialHelper.show(() -> {
+        playButton.setOnClickListener(v -> {
             Intent intent = new Intent(HomeScreen.this, Play.class);
             startActivity(intent);
-        }));
+        });
 
         Button howToButton = findViewById(R.id.HowToButton);
-        howToButton.setOnClickListener(v -> interstitialHelper.show(() -> {
+        howToButton.setOnClickListener(v -> {
             Intent intent = new Intent(HomeScreen.this, HowTo.class);
             startActivity(intent);
             finish();
-        }));
+        });
 
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override

@@ -3,6 +3,7 @@ package com.Hand_Cricket.ads;
 import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
+import android.util.Log;
 import android.os.SystemClock;
 
 import androidx.annotation.NonNull;
@@ -71,6 +72,7 @@ public class AppOpenAdHelper implements Application.ActivityLifecycleCallbacks, 
 
                     @Override
                     public void onAdLoaded(@NonNull AppOpenAd ad) {
+                        Log.d("AppOpenAd", "Ad loaded successfully");
                         appOpenAd = ad;
                         isLoadingAd = false;
                         loadTime = SystemClock.elapsedRealtime();
@@ -78,6 +80,7 @@ public class AppOpenAdHelper implements Application.ActivityLifecycleCallbacks, 
 
                     @Override
                     public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                        Log.e("AppOpenAd", "Failed to load: " + loadAdError.getMessage() + " (Code: " + loadAdError.getCode() + ")");
                         isLoadingAd = false;
                     }
                 });

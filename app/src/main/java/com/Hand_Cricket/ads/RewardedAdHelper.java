@@ -1,6 +1,7 @@
 package com.Hand_Cricket.ads;
 
 import android.app.Activity;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -32,11 +33,13 @@ public class RewardedAdHelper {
                 new RewardedAdLoadCallback() {
                     @Override
                     public void onAdLoaded(@NonNull RewardedAd ad) {
+                        Log.d("RewardedAd", "Ad loaded successfully");
                         rewardedAd = ad;
                     }
 
                     @Override
                     public void onAdFailedToLoad(@NonNull LoadAdError error) {
+                        Log.e("RewardedAd", "Failed to load: " + error.getMessage() + " (Code: " + error.getCode() + ")");
                         rewardedAd = null;
                     }
 

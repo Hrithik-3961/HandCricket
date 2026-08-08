@@ -36,6 +36,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
 
 import com.Hand_Cricket.ads.BannerAdHelper;
+import com.Hand_Cricket.ads.InterstitialAdHelper;
 import com.Hand_Cricket.ads.RewardedAdHelper;
 import com.airbnb.lottie.LottieAnimationView;
 
@@ -75,6 +76,7 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
     private ImageView computerHand, playerHand;
     private RewardedAdHelper rewardedHelper;
     private AlertDialog rewardedAdDialog;
+    private InterstitialAdHelper interstitialHelper;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -95,6 +97,9 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
 
         rewardedHelper = new RewardedAdHelper(this);
         rewardedHelper.load();
+
+        interstitialHelper = new InterstitialAdHelper(this);
+        interstitialHelper.load();
 
         Bundle bundle = getIntent().getExtras();
         assert bundle != null;
@@ -489,9 +494,12 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
         ok.setOnClickListener(v -> {
 
             if (firstInningsOver && status != -1) {
-                Intent intent = getIntent(status);
-                startActivity(intent);
-                finish();
+                interstitialHelper.show(() -> {
+                    Intent intent = getIntent(status);
+                    startActivity(intent);
+                    finish();
+                });
+                return;
             }
 
             if (status == -1) {
