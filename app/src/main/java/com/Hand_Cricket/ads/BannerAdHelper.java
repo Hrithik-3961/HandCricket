@@ -51,8 +51,7 @@ public class BannerAdHelper {
         float density = outMetrics.density;
 
         int adWidth = (int) (widthPixels / density);
-
-        return AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(context, adWidth);
+        return AdSize.getLargeAnchoredAdaptiveBannerAdSize(context, adWidth);
     }
 
 }
