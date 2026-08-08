@@ -75,8 +75,9 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
     private TextView playerStatus, oversDisplay;
     private ImageView computerHand, playerHand;
     private RewardedAdHelper rewardedHelper;
-    private AlertDialog rewardedAdDialog;
     private InterstitialAdHelper interstitialHelper;
+    private AlertDialog rewardedAdDialog, howToDialog, inningsChangeDialog, exitDialog;
+    private PopupMenu morePopupMenu;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -146,13 +147,15 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
 
         final ImageButton more = findViewById(R.id.more);
         more.setOnClickListener(v -> {
+            if (morePopupMenu != null) {
+                morePopupMenu.dismiss();
+            }
+            morePopupMenu = new PopupMenu(PlayingScreen.this, v);
+            morePopupMenu.inflate(R.menu.playing_screen_menu);
+            morePopupMenu.show();
+            setForceShowIcon(morePopupMenu);
 
-            final PopupMenu popupMenu = new PopupMenu(PlayingScreen.this, v);
-            popupMenu.inflate(R.menu.playing_screen_menu);
-            popupMenu.show();
-            setForceShowIcon(popupMenu);
-
-            Menu menu = popupMenu.getMenu();
+            Menu menu = morePopupMenu.getMenu();
 
             if (soundOn) {
                 menu.getItem(1).setIcon(R.drawable.sound_on_icon);
@@ -171,7 +174,7 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
             }
 
 
-            popupMenu.setOnMenuItemClickListener(item -> {
+            morePopupMenu.setOnMenuItemClickListener(item -> {
 
                 if (item.getItemId() == R.id.howToMenu) {
                     showHowTo();
@@ -263,17 +266,20 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
     }
 
     public void showHowTo() {
+        if (isFinishing() || (howToDialog != null && howToDialog.isShowing())) {
+            return;
+        }
         AlertDialog.Builder alert = new AlertDialog.Builder(PlayingScreen.this);
         View mView = getLayoutInflater().inflate(R.layout.dialog_how_to, null);
         alert.setView(mView);
 
-        final AlertDialog alertDialog = alert.create();
-        alertDialog.setCanceledOnTouchOutside(true);
-        Objects.requireNonNull(alertDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        howToDialog = alert.create();
+        howToDialog.setCanceledOnTouchOutside(true);
+        Objects.requireNonNull(howToDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         Button ok = mView.findViewById(R.id.ok);
-        ok.setOnClickListener(v -> alertDialog.dismiss());
-        alertDialog.show();
+        ok.setOnClickListener(v -> howToDialog.dismiss());
+        howToDialog.show();
     }
 
     @Override
@@ -444,6 +450,9 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
     }
 
     private void showInningsChange(int status) {
+        if (isFinishing() || (inningsChangeDialog != null && inningsChangeDialog.isShowing())) {
+            return;
+        }
 
         AlertDialog.Builder alert = new AlertDialog.Builder(PlayingScreen.this);
         View mView = getLayoutInflater().inflate(R.layout.score_board, null);
@@ -460,9 +469,9 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
         ok = mView.findViewById(R.id.ok);
 
         alert.setView(mView);
-        final AlertDialog alertDialog = alert.create();
-        alertDialog.setCanceledOnTouchOutside(false);
-        Objects.requireNonNull(alertDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        inningsChangeDialog = alert.create();
+        inningsChangeDialog.setCanceledOnTouchOutside(false);
+        Objects.requireNonNull(inningsChangeDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         if (firstInningsOver && status != -1)
             text2.setVisibility(View.GONE);
@@ -483,7 +492,7 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
             wicketsDisplay.setText(String.valueOf(computerWickets));
             text2.setText(getResources().getQuantityString(R.plurals.inningsChangeMessage, MAX_PLAYER_OVERS <= 1 ? 1:2, getText(R.string.Player), (computerRuns + 1), MAX_PLAYER_OVERS));
         }
-        alertDialog.show();
+        inningsChangeDialog.show();
 
         if (status == -1) {
             computerHand.setImageResource(R.drawable.image0);
@@ -492,6 +501,8 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
         }
 
         ok.setOnClickListener(v -> {
+
+            inningsChangeDialog.dismiss();
 
             if (firstInningsOver && status != -1) {
                 interstitialHelper.show(() -> {
@@ -515,7 +526,6 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
                     crowdSound.start();
                 }
             }
-            alertDialog.cancel();
             setButtonsEnableDisable(true);
         });
     }
@@ -594,20 +604,23 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
     }
 
     private void showExitDialog() {
+        if (isFinishing() || (exitDialog != null && exitDialog.isShowing())) {
+            return;
+        }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         builder.setMessage(getString(R.string.exitMessage))
                 .setCancelable(false)
                 .setPositiveButton(HtmlCompat.fromHtml("<font color = '#FF0101'>Yes</font>", HtmlCompat.FROM_HTML_MODE_LEGACY), (dialog, which) -> {
-
+                    dialog.dismiss();
                     Intent intent = new Intent(PlayingScreen.this, HomeScreen.class);
                     startActivity(intent);
                     finishAffinity();
                 })
                 .setNegativeButton(HtmlCompat.fromHtml("<font color = '#FF0101'>No</font>", HtmlCompat.FROM_HTML_MODE_LEGACY), (dialog, which) -> dialog.cancel());
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
+        exitDialog = builder.create();
+        exitDialog.show();
     }
 
     public void stopSound() {
@@ -647,7 +660,21 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
+        if (rewardedAdDialog != null && rewardedAdDialog.isShowing()) {
+            rewardedAdDialog.dismiss();
+        }
+        if (howToDialog != null && howToDialog.isShowing()) {
+            howToDialog.dismiss();
+        }
+        if (inningsChangeDialog != null && inningsChangeDialog.isShowing()) {
+            inningsChangeDialog.dismiss();
+        }
+        if (exitDialog != null && exitDialog.isShowing()) {
+            exitDialog.dismiss();
+        }
+        if (morePopupMenu != null) {
+            morePopupMenu.dismiss();
+        }
 
         releasePlayer(crowdSound);
         crowdSound = null;
@@ -657,9 +684,14 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
 
         releasePlayer(opponentWicketSound);
         opponentWicketSound = null;
+
+        super.onDestroy();
     }
 
     private void showVideoAdDialog() {
+        if (isFinishing() || (rewardedAdDialog != null && rewardedAdDialog.isShowing())) {
+            return;
+        }
         if(!rewardedHelper.isAdAvailable()) {
             rewardedHelper.load();
             onRewardCancelled();

@@ -94,6 +94,9 @@ public class Play extends AppCompatActivity implements AdapterView.OnItemSelecte
 
 
     public void onBtnClicked(View view) {
+        if (isFinishing() || (alertDialog != null && alertDialog.isShowing())) {
+            return;
+        }
         flag = true;
         AlertDialog.Builder alert = new AlertDialog.Builder(Play.this);
         @SuppressLint("InflateParams") View mView = getLayoutInflater().inflate(R.layout.toss, null);
@@ -205,6 +208,14 @@ public class Play extends AppCompatActivity implements AdapterView.OnItemSelecte
     protected void onStop() {
         super.onStop();
         stopPlayer();
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (alertDialog != null && alertDialog.isShowing()) {
+            alertDialog.dismiss();
+        }
+        super.onDestroy();
     }
 
     private void startPlaying(int a) {

@@ -36,6 +36,7 @@ public class AfterGameEnds extends AppCompatActivity {
     private MediaPlayer gameWonSound, gameLostSound;
 
     private InterstitialAdHelper interstitialHelper;
+    private AlertDialog scoreCardDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,8 +148,18 @@ public class AfterGameEnds extends AppCompatActivity {
         stopPlayer();
     }
 
-    public void scoreCard(View view) {
+    @Override
+    protected void onDestroy() {
+        if (scoreCardDialog != null && scoreCardDialog.isShowing()) {
+            scoreCardDialog.dismiss();
+        }
+        super.onDestroy();
+    }
 
+    public void scoreCard(View view) {
+        if (isFinishing() || (scoreCardDialog != null && scoreCardDialog.isShowing())) {
+            return;
+        }
         stopPlayer();
 
         final AlertDialog.Builder alert = new AlertDialog.Builder(this);
@@ -162,9 +173,9 @@ public class AfterGameEnds extends AppCompatActivity {
 
         alert.setView(mView);
 
-        final AlertDialog alertDialog = alert.create();
-        alertDialog.setCanceledOnTouchOutside(false);
-        Objects.requireNonNull(alertDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        scoreCardDialog = alert.create();
+        scoreCardDialog.setCanceledOnTouchOutside(false);
+        Objects.requireNonNull(scoreCardDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         totalOvers.setText(getString(R.string.total_overs, overs));
         playerSummary.setText(getResources().getQuantityString(R.plurals.score_summary, playerOvers <= 1 ? 1:2, playerPoints, playerWickets, playerOvers));
@@ -189,7 +200,7 @@ public class AfterGameEnds extends AppCompatActivity {
             }
         }
 
-        ok.setOnClickListener(v -> alertDialog.cancel());
-        alertDialog.show();
+        ok.setOnClickListener(v -> scoreCardDialog.cancel());
+        scoreCardDialog.show();
     }
 }
