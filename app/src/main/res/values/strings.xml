@@ -1,11 +1,8 @@
 <resources>
-    <string name="toast">~Created by HRITHIK AGARWAL.</string>
     <string name="app_name">Hand Cricket</string>
-    <string name="Loading">Loading…</string>
     <string name="Play">Play</string>
     <string name="How_To">How To</string>
     <string name="ok">OK</string>
-    <string name="Logo">Logo</string>
     <string name="How_To_Play">How To Play</string>
     <string name="How_To_Info">-To score runs, click on the desired number you wish to Score.\n\n-The device also chooses a random number between 1 to 10.\n\n-Showing of same number results in a wicket else the runs are increased for the one who is batting by the number shown.\n\n-Each player has 3 wickets. One who scores maximum runs wins.\n\n GOOD LUCK!!</string>
     <string name="Toss">TOSS</string>
@@ -18,9 +15,6 @@
     <string name="TossWin">You\'ve won the Toss! Now choose Batting or Bowling.</string>
     <string name="TossLost1">You\'ve lost the Toss! You are now Batting.</string>
     <string name="TossLost2">You\'ve lost the Toss! You are now Bowling.</string>
-    <string name="CricketPitch">Cricket Pitch</string>
-    <string name="ComputerHand">Device\'s Hand</string>
-    <string name="playerHand">Player\'s Hand</string>
     <string name="Computer">Device</string>
     <string name="Player">Player</string>
     <plurals name="inningsChangeMessage">
@@ -32,8 +26,6 @@
     <string name="playerBatting">Player Batting</string>
     <string name="playerBowling">Player Bowling</string>
     <string name="gameOver">Game Over!</string>
-    <string name="youWon">You Won</string>
-    <string name="youLost">You Lost</string>
     <string name="inningsOver">Innings Over!</string>
     <string name="runs">Runs:</string>
     <string name="wickets">Wicket(s):</string>
@@ -49,7 +41,6 @@
     <string name="_8">8</string>
     <string name="_9">9</string>
     <string name="_10">10</string>
-    <string name="drop_down_arrow">Drop Down Arrow</string>
     <string name="toast2">Please select the number of overs first.</string>
     <string name="over_playing_screen">Over: %1$s(%2$d)</string>
     <string name="over">Over:\u0020</string>
