@@ -22,6 +22,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
@@ -48,6 +49,16 @@ public class Play extends AppCompatActivity implements AdapterView.OnItemSelecte
         EdgeToEdge.enable(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.play);
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            int systemBars = WindowInsetsCompat.Type.systemBars();
+            int displayCutout = WindowInsetsCompat.Type.displayCutout();
+            v.setPadding(insets.getInsets(systemBars | displayCutout).left,
+                    0,
+                    insets.getInsets(systemBars | displayCutout).right,
+                    insets.getInsets(systemBars | displayCutout).bottom);
+            return insets;
+        });
 
         WindowInsetsControllerCompat windowInsetsController =
                 WindowCompat.getInsetsController(getWindow(), getWindow().getDecorView());

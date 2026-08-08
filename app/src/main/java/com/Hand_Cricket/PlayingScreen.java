@@ -31,6 +31,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.text.HtmlCompat;
+import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
@@ -84,6 +85,18 @@ public class PlayingScreen extends AppCompatActivity implements View.OnClickList
         EdgeToEdge.enable(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.playing_screen);
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            int systemBars = WindowInsetsCompat.Type.systemBars();
+            int displayCutout = WindowInsetsCompat.Type.displayCutout();
+            v.setPadding(insets.getInsets(systemBars | displayCutout).left,
+                    0,
+                    insets.getInsets(systemBars | displayCutout).right,
+                    insets.getInsets(systemBars | displayCutout).bottom);
+            
+            findViewById(R.id.top).setPadding(0, insets.getInsets(systemBars | displayCutout).top, 0, 0);
+            return insets;
+        });
 
         WindowInsetsControllerCompat windowInsetsController =
                 WindowCompat.getInsetsController(getWindow(), getWindow().getDecorView());
